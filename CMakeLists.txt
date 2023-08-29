@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(cmdout VERSION 0.1.3)
+project(cmdout VERSION 0.1.4)
 
 #set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_STANDARD 14)
@@ -14,10 +14,10 @@ endif()
 include(CMakeDependentOption)
 include(GNUInstallDirs)
 
-option(BUILD_DEMO "Builds the demo subproject" ON)
-option(INSTALL_CMDOUT "Enable installation of cmdout. (Projects embedding cmdout may want to turn this OFF.)" ON)
+option(CMDOUT_DEMO_BUILD "Builds the demo subproject" ON)
+option(CMDOUT_INSTALL "Enable installation of cmdout. (Projects embedding cmdout may want to turn this OFF.)" ON)
 
 add_subdirectory(cmdout)
-if(BUILD_DEMO)
+if(CMDOUT_DEMO_BUILD)
 	add_subdirectory(demo)
 endif()

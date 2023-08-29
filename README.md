@@ -10,7 +10,7 @@ The `cmdout` library provides facilities for executing shell commands and get th
 FetchContent_Declare(
   cmdout
   GIT_REPOSITORY https://github.com/myvas/cmdout.git
-  GIT_TAG        0.1.3
+  GIT_TAG        0.1.4
 )
 FetchContent_MakeAvailable(cmdout)
 
