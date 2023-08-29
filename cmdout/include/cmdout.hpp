@@ -3,17 +3,15 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  cmdout.hpp
- * @brief `myvas::system()` is used to invoke a shell command and get its output, within timeout feature.
+ * @brief This class `myvas::cmdout` and function `myvas::system()` is used to
+ *        execute a shell command and get its output, within timeout feature.
  *
  * @see {std::system()}
  */
 #pragma once
 
 #include <string>
-#include <string_view>
 #include <chrono>
-#include <cstdlib>
-#include <cerrno>
 
 namespace myvas {
 
@@ -24,14 +22,10 @@ const int64_t CMDOUT_TIMEOUT_MILLISECONDS = 10 * 1000;
  */
 class cmdout
 {
-	int64_t timeout_ms_;
-	int status_;
-	std::string cmd_;
-	std::string out_;
-
-	static cmdout do_system(const std::string& cmd);
-	static cmdout do_system_timeout(const std::string& cmd, std::chrono::milliseconds timeout);
-	static cmdout do_system_timeout_ms(const std::string& cmd, int64_t timeout_ms);
+	int64_t timeout_ms_ = CMDOUT_TIMEOUT_MILLISECONDS;
+	int status_ = EXIT_FAILURE;
+	std::string cmd_ = "exit 0";
+	std::string out_ = "Failed";
 
 public:
 
@@ -130,7 +124,35 @@ public:
 
 	virtual ~cmdout();
 
+	/**
+	 * @brief Execute a specified shell command with arguments initialized in this class.
+	 */
 	cmdout& exec();
 };
+
+/**
+ * @brief Execute a shell command specified in `cmd`.
+ *
+ * @return Returns a `cmdout` object (without `timeout`)
+ */
+cmdout system(const std::string& cmd);
+
+/**
+ * @brief Execute a shell command specified in `cmd` and get its output before time runs out.
+ *
+ * @param timeout timeout duration, defaults to 10 seconds
+ *
+ * @return Returns a `cmdout` object
+ */
+cmdout system_timeout(const std::string& cmd, std::chrono::milliseconds timeout);
+
+/**
+ * @brief Execute a shell command specified in `cmd` and get its output before time runs out.
+ *
+ * @param timeout_ms timeout in milliseconds, defaults to 10 seconds
+ *
+ * @return Returns a `cmdout` object
+ */
+cmdout system_timeout_ms(const std::string& cmd, int64_t timeout_ms);
 
 } // namespace myvas

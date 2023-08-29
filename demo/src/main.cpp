@@ -6,10 +6,14 @@
  * @brief Demonstrate the usage of `myvas::system()`.
  */
 #include <cmdout_ext.hpp>
+
 #include <iostream>
 
 int main()
 {
+	std::cout << std::string("*****************************") << std::endl;
+	std::cout << std::string("*       std::system()       *") << std::endl;
+	std::cout << std::string("*****************************") << std::endl;
 	// std::system()
 	auto result10 = std::system(NULL);
 	std::cout << result10 << std::endl;
@@ -20,6 +24,36 @@ int main()
 	auto result12 = std::system("ls not-exist 2>&1");
 	std::cout << result12 << std::endl;
 
+	std::cout << std::endl;
+	std::cout << std::string("*****************************") << std::endl;
+	std::cout << std::string("*      myvas::system()      *") << std::endl;
+	std::cout << std::string("*****************************") << std::endl;
+	// myvas::system()
+	auto result30 = myvas::system("exit 0");
+	std::cout << result30 << std::endl;
+
+	auto result31 = myvas::system("ls ~/");
+	std::cout << result31 << std::endl;
+
+	auto result32 = myvas::system("ls not-exist 2>&1");
+	std::cout << result32 << std::endl;
+
+	auto result330 = myvas::system_timeout_ms("ls / -l", 0);
+	std::cout << result330 << std::endl;
+
+	auto result331 = myvas::system_timeout_ms("ls / -l", 1);
+	std::cout << result331 << std::endl;
+
+	auto result340 = myvas::system_timeout("ls / -l", std::chrono::milliseconds(0)).exec();
+	std::cout << result340 << std::endl;
+
+	auto result341 = myvas::system_timeout("ls / -l", std::chrono::milliseconds(1)).exec();
+	std::cout << result341 << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::string("*****************************") << std::endl;
+	std::cout << std::string("*      myvas::cmdout()      *") << std::endl;
+	std::cout << std::string("*****************************") << std::endl;
 	// myvas::cmdout
 	auto result20 = myvas::cmdout().exec();
 	std::cout << result20 << std::endl;
@@ -33,7 +67,6 @@ int main()
 	auto result23 = myvas::cmdout("ls / -l").exec();
 	std::cout << result23 << std::endl;
 
-	// myvas::system(cmd, timeout)
 	auto result40 = myvas::cmdout("ls / -l", std::chrono::milliseconds(0)).exec();
 	std::cout << result40 << std::endl;
 
