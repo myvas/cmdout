@@ -17,16 +17,24 @@
 
 namespace myvas {
 
+const int64_t CMDOUT_TIMEOUT_MILLISECONDS = 10 * 1000;
+
 /**
  * @brief Executor to execute a shell command and get its output.
  */
 class cmdout
 {
+	int64_t timeout_ms_;
 	int status_;
-	std::string out_;
 	std::string cmd_;
+	std::string out_;
+
+	static cmdout do_system(const std::string& cmd);
+	static cmdout do_system_timeout(const std::string& cmd, std::chrono::milliseconds timeout);
+	static cmdout do_system_timeout_ms(const std::string& cmd, int64_t timeout_ms);
 
 public:
+
 	/**
 	 * @brief Gets the exit code after `exec` returned.
 	 *
@@ -41,29 +49,70 @@ public:
 	 * last command in `cmd`.
 	 */
 	int status() const;
-
-	void status(int value);
+	cmdout& status(int);
 
 	/**
 	 * @brief Gets the content of `stdout` (file descriptor 1).
 	 */
-	std::string_view out() const;
-
-	void out(std::string_view value);
+	std::string out() const;
+	cmdout& out(const std::string&);
 
 	/**
 	 * @brief Gets the shell command line.
 	 */
-	std::string_view cmd() const;
+	std::string cmd() const;
+	cmdout& cmd(const std::string&);
 
-	void cmd(std::string_view value);
+	std::chrono::milliseconds timeout() const;
+	int64_t timeout_ms() const;
+	cmdout& timeout(std::chrono::milliseconds);
+	cmdout& timeout(int64_t);
 
 	/**
-	 * @brief Default to cmdout(ENOTSUP, "Not supported").
+	 * @brief Default to cmdout("exit 0").
 	 */
 	cmdout();
 
-	cmdout(std::string_view cmd);
+	/**
+	 * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout (10 seconds) has elapsed.
+	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
+	 *
+	 * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
+	 * containing a shell command.
+	 *
+	 * @return The return value is a `cmdout` object, in which wraps the status code
+	 * and output string of the shell command.
+	 */
+	explicit cmdout(const std::string& cmd);
+
+	/**
+	 * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout has elapsed.
+	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and
+	 * stderr, otherwise stdout only.
+	 *
+	 * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
+	 * containing a shell command.
+	 *
+	 * @param [in] timeout_ms timeout in milliseconds. (If zero, defaults to 10 seconds)
+	 *
+	 * @return The return value is a `cmdout` object, in which wraps the status code
+	 * and output string of the shell command.
+	 */
+	explicit cmdout(const std::string& cmd, int64_t timeout_ms);
+
+	/**
+	 * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout has elapsed.
+	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
+	 *
+	 * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
+	 * containing a shell command.
+	 *
+	 * @param [in] timeout timeout duration. (If zero, defaults to 10 seconds)
+	 *
+	 * @return The return value is a `cmdout` object, in which wraps the status code
+	 * and output string of the shell command.
+	 */
+	explicit cmdout(const std::string& cmd, std::chrono::milliseconds timeout);
 
 	/**
 	 * @brief Constructs an output.
@@ -71,7 +120,8 @@ public:
 	 * @param [in] status EXIT_SUCCESS, EXIT_FAILURE or errno
 	 * @see `cerrno` and `cstdlib`.
 	 */
-	explicit cmdout(int status, std::string_view out, std::string_view cmd);
+	explicit cmdout(const std::string& cmd, std::chrono::milliseconds timeout, int status, const std::string& out);
+	explicit cmdout(const std::string& cmd, int64_t timeout_ms, int status, const std::string& out);
 
 	cmdout(const cmdout&);
 	cmdout& operator=(const cmdout&);
@@ -79,47 +129,8 @@ public:
 	cmdout& operator=(cmdout&&);
 
 	virtual ~cmdout();
+
+	cmdout& exec();
 };
-
-/**
- * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout (10 seconds) has elapsed.
- * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
- *
- * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
- * containing a shell command.
- *
- * @return The return value is a `cmdout` object, in which wraps the status code
- * and output string of the shell command.
- */
-cmdout system(const char* cmd);
-
-/**
- * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout has elapsed.
- * NOTE: A shell command with a tail of `2>&1` will catch both stdout and
- * stderr, otherwise stdout only.
- *
- * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
- * containing a shell command.
- *
- * @param [in] timeout_ms timeout in milliseconds. (If zero, defaults to 10 seconds)
- *
- * @return The return value is a `cmdout` object, in which wraps the status code
- * and output string of the shell command.
- */
-cmdout system(const char* cmd, unsigned timeout_ms);
-
-/**
- * @brief Execute a shell command specified in `cmd`, waiting for the result until specified timeout has elapsed.
- * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
- *
- * @param [in] cmd The `cmd` argument is a pointer to a null-terminated string
- * containing a shell command.
- *
- * @param [in] timeout_ms timeout in milliseconds. (If zero, defaults to 10 seconds)
- *
- * @return The return value is a `cmdout` object, in which wraps the status code
- * and output string of the shell command.
- */
-cmdout system(const char* cmd, std::chrono::milliseconds timeout_ms);
 
 } // namespace myvas

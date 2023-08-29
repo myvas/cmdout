@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(cmdout.sln VERSION 0.0)
+project(cmdout VERSION 0.1)
 
 #set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_STANDARD 14)
