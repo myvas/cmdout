@@ -13,9 +13,12 @@ void example_std_system() {
 	std::cout << "*    function std::system()     *" << std::endl;
 	std::cout << "*********************************" << std::endl;
 	{
-		auto result = std::system(NULL);
+		auto result = std::system(nullptr);
 		std::cout << result << std::endl;
-		assert(result == EXIT_SUCCESS);
+		// https://en.cppreference.com/w/cpp/utility/program/system
+		// If command is a null pointer, returns a nonzero value
+		// if and only if the command processor exists.
+		assert(result != 0);
 	}
 	{
 		auto result = std::system("exit 0");

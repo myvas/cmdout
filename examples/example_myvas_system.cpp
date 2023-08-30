@@ -45,14 +45,14 @@ void example_myvas_system() {
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
-		auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(0)).exec();
-		std::cout << result << std::endl;
-		assert(result.status() == EXIT_SUCCESS);
-	}
-	{
 		auto result = myvas::system_timeout_ms("ls / -l", 1);
 		std::cout << result << std::endl;
 		assert(result.status() == ETIME);
+	}
+	{
+		auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(0)).exec();
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
 		auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(1)).exec();
