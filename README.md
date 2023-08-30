@@ -8,7 +8,7 @@ The `myvas::cmdout` library provides facilities for executing shell commands and
 ### Import and link the library via CMake
 ```
 FetchContent_Declare(cmdout
-  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.6.tar.gz
+  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.7.tar.gz
 )
 FetchContent_MakeAvailable(cmdout)
 
