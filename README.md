@@ -1,5 +1,5 @@
-# cmdout
-The `cmdout` library provides facilities for executing shell commands and get their output before time runs out.
+# myvas::cmdout
+The `myvas::cmdout` library provides facilities for executing shell commands and get their output before time runs out.
 
 ## Todo list
 - By now, it works on Linux; but it should work on more platforms.
@@ -7,34 +7,79 @@ The `cmdout` library provides facilities for executing shell commands and get th
 ## Getting Started
 ### Import and link the library via CMake
 ```
-FetchContent_Declare(
-  cmdout
-  GIT_REPOSITORY https://github.com/myvas/cmdout.git
-  GIT_TAG        0.1.4
+FetchContent_Declare(cmdout
+  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.5.tar.gz
 )
 FetchContent_MakeAvailable(cmdout)
 
-target_link_libraries(<your_target> PRIVATE cmdout)
+target_link_libraries(<your_target> PRIVATE myvas::cmdout)
 ```
 ### Include the header file
 ```
 #include <cmdout.hpp>
 ```
 
-### Demo
+### Examples
 C++17 on GNU/Linux Debian 11 (bullseye)
 ```
 #include <cmdout_ext.hpp>
-#include <iostream>
-
+#include <cassert>
+//...
 int main() {
-  auto result20 = myvas::cmdout().exec();
-  std::cout << result20 << std::endl;
+	// function myvas::system()
+	{
+		auto result = myvas::system("exit 0");
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
+	{
+		auto result = myvas::system("exit 1");
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_FAILURE);
+	}
+	{
+		auto result = myvas::system("ls not-exist 2>&1");
+		std::cout << result << std::endl;
+		assert(result.status() == ENOENT);
+	}
+	{
+		auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(0)).exec();
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
+	{
+		auto result = myvas::system_timeout_ms("ls / -l", 1);
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
 
-  auto result22 = myvas::cmdout("ls not-exist 2>&1").exec();
-  std::cout << result22 << std::endl;
-
-  auto result42 = myvas::cmdout("ls / -l", std::chrono::milliseconds(4)).exec();
-  std::cout << result42 << std::endl;
+	// class myvas::cmdout
+	{
+		auto result = myvas::cmdout().exec();
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
+	{
+		auto result = myvas::cmdout("ls not-exist 2>&1").exec();
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
+	{
+		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(4)).exec();
+		std::cout << result << std::endl;
+		assert(result.status() == EXIT_SUCCESS);
+	}
 }
+```
+
+## tests
+```
+All tests passed (33 assertions in 3 test cases)
+```
+
+## Benchmarks
+```
+std::system("exit 0"):          runs 10000 times, elapsed 5366836922 ns, result: 1863.29 x/s
+myvas::system("exit 0"):        runs 10000 times, elapsed 5872007506 ns, result: 1702.48 x/s
+myvas::cmdout("exit 0").exec(): runs 10000 times, elapsed 6787948119 ns, result: 1473.21 x/s
 ```
