@@ -7,8 +7,9 @@ The `myvas::cmdout` library provides facilities for executing shell commands and
 ## Getting Started
 ### Import and link the library via CMake
 ```
+include(FetchContent)
 FetchContent_Declare(cmdout
-  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.7.tar.gz
+  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.8.tar.gz
 )
 FetchContent_MakeAvailable(cmdout)
 
@@ -50,6 +51,11 @@ int main() {
 	{
 		auto result = myvas::system_timeout_ms("ls / -l", 1);
 		std::cout << result << std::endl;
+		assert(result.status() == ETIME);
+	}
+	{
+		auto result = myvas::system_timeout_ms("ls / -l", 9);
+		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}
 
@@ -65,7 +71,12 @@ int main() {
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
-		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(4)).exec();
+		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(1)).exec();
+		std::cout << result << std::endl;
+		assert(result.status() == ETIME);
+	}
+	{
+		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(9)).exec();
 		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}

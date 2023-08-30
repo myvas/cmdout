@@ -25,8 +25,8 @@ BEGIN
             VALUE "FileDescription", "myvas::cmdout library\0"
             VALUE "FileVersion", "@CMDOUT_VERSION@.0\0"
             VALUE "InternalName", "cmdout.dll\0"
-            VALUE "LegalCopyright", "Copyright (C) Myvas Foundation\0"
-            VALUE "ProductName", "cmdout\0"
+            VALUE "LegalCopyright", "Copyright (c) 2023 Myvas Foundation\0"
+            VALUE "ProductName", "myvas::cmdout\0"
             VALUE "ProductVersion", "@CMDOUT_VERSION@.0\0"
         END
     END

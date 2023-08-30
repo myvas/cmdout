@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.19)
-###################
-# SemVer
-###################
+####################################
+# SemVer major.minor.patch
+# See: include/cmdout/version.h
+####################################
 include(cmake/utils.cmake)
-cmdout_extract_version()
+cmdout_extract_version(CMDOUT_VERSION)
 project(cmdout VERSION ${CMDOUT_VERSION} LANGUAGES CXX)
 message(STATUS "Build ${PROJECT_NAME}: ${PROJECT_VERSION}")
 
@@ -82,10 +83,13 @@ target_link_libraries(cmdout PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 #set_target_properties(cmdout PROPERTIES COMPILE_FLAGS "-pthread" LINK_FLAGS "-pthread")
 cmdout_enable_warnings(cmdout)
 
-set_target_properties(cmdout PROPERTIES VERSION ${CMDOUT_VERSION} SOVERSION
-    ${CMDOUT_VERSION_MAJOR}.${CMDOUT_VERSION_MINOR}
+set_target_properties(cmdout PROPERTIES
+    VERSION ${CMDOUT_VERSION}
+    SOVERSION ${CMDOUT_VERSION_MAJOR}.${CMDOUT_VERSION_MINOR}
 )
-set_target_properties(cmdout PROPERTIES DEBUG_POSTFIX d)
+if(CMDOUT_MASTER_PROJECT)
+    set_target_properties(cmdout PROPERTIES DEBUG_POSTFIX d)
+endif()
 
 ##################
 # /examples
