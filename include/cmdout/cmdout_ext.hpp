@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  cmdout_ext.hpp
- * @brief Helpers for `cmdout`.
+ * @brief Helpers for `myvas::cmdout`.
  */
 #pragma once
 

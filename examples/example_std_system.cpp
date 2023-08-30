@@ -35,7 +35,7 @@ void example_std_system() {
 	{
 		auto result = std::system("ls not-exist 2>&1");
 		std::cout << result << std::endl;
-		assert(EEXITSTATUS(result) == ENOENT);
+		assert(WEXITSTATUS(result) == ENOENT);
 	}
 }
 

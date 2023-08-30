@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  test_myvas_cmdout.cpp
- * @brief unit test for class `myvas::cmdout`.
+ * @brief Unit test for class `myvas::cmdout`.
  */
 #include <catch2/catch_test_macros.hpp>
 

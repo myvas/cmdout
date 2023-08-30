@@ -2,8 +2,8 @@
  * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
  *
- * @file  std_system.cpp
- * @brief unit test for function `std::system()`.
+ * @file  test_std_system.cpp
+ * @brief Unit test for function `std::system()`.
  */
 #include <catch2/catch_test_macros.hpp>
 
