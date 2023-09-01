@@ -9,16 +9,27 @@
 # apt install catch2
 ###################################
 
-find_package(Catch2 3.3.2 QUIET)
+set(Catch2_VERSION_REQUIRED 3.3.2)
+
+find_package(Catch2 ${Catch2_VERSION_REQUIRED} QUIET)
 if(Catch2_FOUND)
     message(STATUS "Found Catch2: ${Catch2_VERSION}")
 else()
-    message(WARNING "CMake package Catch2 >=3.3.2 not found! Please wait for fetching from github.com...")
+    message(STATUS "CMake package Catch2 ${Catch2_VERSION_REQUIRED} or later not found!"
+        " Please wait for fetching from https://github.com/catchorg/Catch2"
+    )
 
     include(FetchContent)
     FetchContent_Declare(Catch2
-        URL https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
+        URL https://github.com/catchorg/Catch2/archive/refs/tags/v${Catch2_VERSION_REQUIRED}.tar.gz
         DOWNLOAD_EXTRACT_TIMESTAMP ON
+        OVERRIDE_FIND_PACKAGE
     )
-    FetchContent_MakeAvailable(Catch2)
+    find_package(Catch2)
+    if(Catch2_FOUND)
+        # TODO: We should extract `REAL` version number by hand, since there is no Catch2_VERSION here!
+        message(STATUS "Built Catch2: ${Catch2_VERSION}")
+    else()
+        message(FATAL_ERROR "Failed to build Catch2: ${Catch2_VERSION_REQUIRED}")
+    endif()
 endif()

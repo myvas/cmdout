@@ -10,7 +10,8 @@ if(NOT TARGET cmdout)
 endif()
 
 include(../cmake/utils.cmake)
-include(cmake/catch2.cmake)
+include(cmake/googletest.cmake)
+include(cmake/Catch2.cmake)
 
 #########################
 # tests sources

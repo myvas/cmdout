@@ -20,36 +20,43 @@ void example_myvas_cmdout() {
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
-		auto result = myvas::cmdout("ls ~/").exec();
+		std::cout << std::endl;
+		auto result = myvas::cmdout("ls ~/ -C").exec();
 		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
+		std::cout << std::endl;
 		auto result = myvas::cmdout("ls not-exist 2>&1").exec();
 		std::cout << result << std::endl;
 		assert(result.status() == ENOENT);
 	}
 	{
-		auto result = myvas::cmdout("ls / -l").exec();
+		std::cout << std::endl;
+		auto result = myvas::cmdout("ls / -C").exec();
 		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
-		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(0)).exec();
+		std::cout << std::endl;
+		auto result = myvas::cmdout("ls / -C", std::chrono::milliseconds(0)).exec();
 		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
-		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(1)).exec();
+		std::cout << std::endl;
+		auto result = myvas::cmdout("ls / -C", std::chrono::milliseconds(1)).exec();
 		std::cout << result << std::endl;
 		assert(result.status() == ETIME);
 	}
 	{
-		auto result = myvas::cmdout("ls / -l", std::chrono::milliseconds(9)).exec();
+		std::cout << std::endl;
+		auto result = myvas::cmdout("ls / -C", std::chrono::milliseconds(9)).exec();
 		std::cout << result << std::endl;
 		assert(result.status() == EXIT_SUCCESS);
 	}
 	{
+		std::cout << std::endl;
 		auto result = myvas::cmdout("ls not-exist 2>&1", std::chrono::milliseconds(9)).exec();
 		std::cout << result << std::endl;
 		assert(result.status() == ENOENT);
