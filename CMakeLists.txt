@@ -99,7 +99,9 @@ endif()
 if(CMDOUT_BUILD_EXAMPLES OR CMDOUT_BUILD_ALL)
     message(STATUS "Generating examples")
 	add_subdirectory(examples)
-    cmdout_enable_warnings(examples)
+    cmdout_enable_warnings(example_myvas_system)
+    cmdout_enable_warnings(example_std_system)
+    cmdout_enable_warnings(example_myvas_cmdout)
 endif()
 
 ##################

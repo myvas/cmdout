@@ -22,9 +22,9 @@ const int64_t CMDOUT_TIMEOUT_MILLISECONDS = 10 * 1000;
  */
 class cmdout
 {
+	std::string cmd_= "exit 0";
 	int64_t timeout_ms_ = CMDOUT_TIMEOUT_MILLISECONDS;
 	int status_ = EXIT_FAILURE;
-	std::string cmd_ = "exit 0";
 	std::string out_ = "Failed";
 
 public:
