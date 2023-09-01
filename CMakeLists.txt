@@ -75,10 +75,12 @@ endif()
 add_library(myvas::cmdout ALIAS cmdout)
 
 target_compile_definitions(cmdout PUBLIC CMDOUT_COMPILED_LIB)
-target_include_directories(cmdout PUBLIC
+set(CMDOUT_TARGET_INCLUDE_DIRECTORIES
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include/cmdout>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/cmdout>"
 )
+target_include_directories(cmdout PUBLIC ${CMDOUT_TARGET_INCLUDE_DIRECTORIES})
+message(STATUS "INCLUDE_DIRECTORIES: $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include/cmdout>")
 target_link_libraries(cmdout PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 #set_target_properties(cmdout PROPERTIES COMPILE_FLAGS "-pthread" LINK_FLAGS "-pthread")
 cmdout_enable_warnings(cmdout)
@@ -177,3 +179,12 @@ if(CMDOUT_INSTALL)
     ###########################################
     include(cmake/cmdoutCPack.cmake)
 endif()
+
+
+# Hide advanced options from normal settings view
+mark_as_advanced(
+    #CMDOUT_BUILD_ALL
+    CMDOUT_BUILD_TESTS CMDOUT_BUILD_EXAMPLES CMDOUT_BUILD_BENCHMARKS
+    #CMDOUT_BUILD_SHARED CMDOUT_BUILD_PIC CMDOUT_BUILD_WARNINGS
+    #CMDOUT_SANITIZE_ADDRESS CMDOUT_COMPILED_LIB
+)

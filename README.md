@@ -9,7 +9,7 @@ The `myvas::cmdout` library provides facilities for executing shell commands and
 ```
 include(FetchContent)
 FetchContent_Declare(cmdout
-  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.9.tar.gz
+  URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.10.tar.gz
 )
 FetchContent_MakeAvailable(cmdout)
 

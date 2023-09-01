@@ -12,7 +12,7 @@ endif()
 # cmdout already includes Threads
 #find_package(Threads REQUIRED)
 
-find_package(benchmark CONFIG)
+find_package(benchmark)
 if(NOT benchmark_FOUND)
     # fetch googlebenchmark (require CMake>=3.11.0)
     message(STATUS "Downloading GoogleBenchmark")
@@ -23,7 +23,10 @@ if(NOT benchmark_FOUND)
     ###############################################
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "")
     #FetchContent_Declare(googlebenchmark GIT_REPOSITORY https://github.com/google/benchmark.git GIT_TAG v1.6.0)
-    FetchContent_Declare(googlebenchmark URL https://github.com/google/benchmark/archive/refs/tags/v1.6.0.tar.gz)
+    FetchContent_Declare(googlebenchmark
+        URL https://github.com/google/benchmark/archive/refs/tags/v1.6.0.tar.gz
+        DOWNLOAD_EXTRACT_TIMESTAMP ON
+    )
     FetchContent_MakeAvailable(googlebenchmark)
 endif()
 

@@ -25,7 +25,7 @@
 /**
  * @brief When you make backward compatible bug fixes, You'd increment the PATCH version.
  */
-#define CMDOUT_VERSION_PATCH 9
+#define CMDOUT_VERSION_PATCH 10
 
 #define CMDOUT_TO_VERSION_NUMBER(major, minor, patch) (major * 10000 + minor * 100 + patch)
 #define CMDOUT_VERSION_NUMBER CMDOUT_TO_VERSION_NUMBER(CMDOUT_VERSION_MAJOR, CMDOUT_VERSION_MINOR, CMDOUT_VERSION_PATCH)
