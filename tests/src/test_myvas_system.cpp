@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  test_myvas_system.cpp
- * @brief Unit test for function `myvas::system()`.
+ * @brief Unit test for function myvas::system().
  */
 #include <catch2/catch_test_macros.hpp>
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  example_std_system.cpp
- * @brief example for function `std::system()`.
+ * @brief example for function std::system().
  */
 #include <iostream>
 #include <cassert>

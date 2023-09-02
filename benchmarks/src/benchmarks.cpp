@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  benchmarks.cpp
- * @brief benchmarks for `myvas::cmdout`.
+ * @brief benchmarks for myvas::cmdout.
  */
 #include "cmdout.hpp"
 

@@ -2,14 +2,15 @@
 # SPDX-License-Identifier: MIT
 
 ###############################################################################
-# Find or fetch a CMake package: Catch2 >=3.3.2
+# Find or fetch a CMake package: Catch2 >=3.0.1
 ###############################################################################
 
-set(Catch2_VERSION_REQUIRED 3.3.2)
+set(Catch2_VERSION_REQUIRED 3.0.1)
 find_package(Catch2 ${Catch2_VERSION_REQUIRED} QUIET)
 if(Catch2_FOUND)
     message(STATUS "Found Catch2: ${Catch2_VERSION}")
 else()
+    #https://github.com/catchorg/Catch2/archive/refs/tags/v3.0.1.tar.gz
     set(Catch2_DOWNLOAD_URL https://github.com/catchorg/Catch2/archive/refs/tags/v${Catch2_VERSION_REQUIRED}.tar.gz)
     message(STATUS "CMake package Catch2 ${Catch2_VERSION_REQUIRED} or later not found!"
         " Please wait for fetching from ${Catch2_DOWNLOAD_URL}"

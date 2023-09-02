@@ -1,48 +1,6 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-# Get version from include/cmdout/version.h and put it in CMDOUT_VERSION
-# and 3 components: CMDOUT_VERSION_MAJOR, CMDOUT_VERSION_MINOR, CMDOUT_VERSION_PATCH
-function(cmdout_extract_version CMDOUT_VERSION)
-    file(READ "${CMAKE_CURRENT_LIST_DIR}/include/cmdout/version.h" file_contents)
-    string(REGEX MATCH "CMDOUT_VERSION_MAJOR ([0-9]+)" _ "${file_contents}")
-    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
-        message(FATAL_ERROR "Could not extract major version number from cmdout/version.h")
-    endif()
-    set(ver_major ${CMAKE_MATCH_1})
-
-    string(REGEX MATCH "CMDOUT_VERSION_MINOR ([0-9]+)" _ "${file_contents}")
-    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
-        message(FATAL_ERROR "Could not extract minor version number from cmdout/version.h")
-    endif()
-    set(ver_minor ${CMAKE_MATCH_1})
-
-    string(REGEX MATCH "CMDOUT_VERSION_PATCH ([0-9]+)" _ "${file_contents}")
-    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
-        message(FATAL_ERROR "Could not extract patch version number from cmdout/version.h")
-    endif()
-    set(ver_patch ${CMAKE_MATCH_1})
-
-    #######################
-    # set [out] variables
-    #######################
-    set(CMDOUT_VERSION_MAJOR_NAME "${CMDOUT_VERSION}_MAJOR")
-    set(${CMDOUT_VERSION_MAJOR_NAME} ${ver_major})
-    set(${CMDOUT_VERSION_MAJOR_NAME} ${${CMDOUT_VERSION_MAJOR_NAME}} PARENT_SCOPE)
-
-    set(CMDOUT_VERSION_MINOR_NAME "${CMDOUT_VERSION}_MINOR")
-    set(${CMDOUT_VERSION_MINOR_NAME} ${ver_minor})
-    set(${CMDOUT_VERSION_MINOR_NAME} ${${CMDOUT_VERSION_MINOR_NAME}} PARENT_SCOPE)
-
-    set(CMDOUT_VERSION_PATCH_NAME "${CMDOUT_VERSION}_PATCH")
-    set(${CMDOUT_VERSION_PATCH_NAME} ${ver_patch})
-    set(${CMDOUT_VERSION_PATCH_NAME} ${${CMDOUT_VERSION_PATCH_NAME}} PARENT_SCOPE)
-
-    set(CMDOUT_VERSION_NAME "${CMDOUT_VERSION}")
-    set(${CMDOUT_VERSION_NAME} "${ver_major}.${ver_minor}.${ver_patch}")
-    set(${CMDOUT_VERSION_NAME} ${${CMDOUT_VERSION_NAME}} PARENT_SCOPE)
-endfunction()
-
 # Turn on warnings on the given target
 function(cmdout_enable_warnings target_name)
     if(CMDOUT_BUILD_WARNINGS)

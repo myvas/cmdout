@@ -9,7 +9,7 @@ if(NOT TARGET cmdout)
     find_package(cmdout REQUIRED)
 endif()
 
-include(cmake/googletest.cmake)
+include(cmake/GTest.cmake)
 include(cmake/Catch2.cmake)
 
 #########################

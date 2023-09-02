@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  example_myvas_cmdout.cpp
- * @brief example for class `myvas::cmdout`.
+ * @brief example for class myvas::cmdout.
  */
 #include <cmdout_ext.hpp>
 

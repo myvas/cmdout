@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  example_myvas_system.cpp
- * @brief example for function `myvas::system()`.
+ * @brief example for function myvas::system().
  */
 #include <cmdout_ext.hpp>
 

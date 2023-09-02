@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  system.cpp
- * @brief Implementation of function `myvas::system()`.
+ * @brief Implementation of function myvas::system().
  */
 #include "cmdout.hpp"
 

@@ -84,10 +84,9 @@ if(CMDOUT_MASTER_PROJECT)
 	set_target_properties(cmdout PROPERTIES DEBUG_POSTFIX d)
 endif()
 
-
-##################
-# install
-##################
+##########################
+# install cmdout library
+##########################
 include(GNUInstallDirs)
 if(CMDOUT_INSTALL)
 	message(STATUS "Generating install")

@@ -1,29 +1,11 @@
-# FAQ
-
-## Why use cmdout?
-
-Here is a common C++17 code to execute a shell command and get its output:
-
-file: example_std_system_out.cpp
-
-### main
-```
-{
-	auto cmd = "ls not-exist";
-	auto result = system_stdout(cmd);
-	std::cout << "status: " << std::get<0>(result) << std::endl;
-	std::cout << "out: \n" << std::get<1>(result) << std::endl;
-}
-{
-	auto cmd = "ls ~ -C";
-	auto result = system_stdout(cmd);
-	std::cout << "status: " << std::get<0>(result) << std::endl;
-	std::cout << "out: \n" << std::get<1>(result) << std::endl;
-}
-```
-
-### function std_system_out()
-```
+/**
+ * Copyright (c) 2023 Myvas Foundation
+ * SPDX-License-Identifier: MIT
+ *
+ * @file  example_std_system_out.cpp
+ * @brief example for function std::system() to execute a shell command and get its output.
+ */
+#include <iostream>
 #include <cstdio>
 #include <string>
 #include <fstream>
@@ -51,7 +33,19 @@ std::tuple<int, std::string> std_system_out(const std::string& cmd)
 
 	return std::make_tuple(status, out);
 }
-```
-It works!
-But it is neither smart nor effective. Furthermore, it lacks asynchorization or cancellation mechanism to avoid block in a long time.
-So we must improve it! Just use cmdout!
+
+int main(int argc, char* argv[]) {
+	{
+		auto cmd = "ls not-exist";
+		auto result = std_system_out(cmd);
+		std::cout << "status: " << std::get<0>(result) << std::endl;
+		std::cout << "out: \n" << std::get<1>(result) << std::endl;
+	}
+	{
+		auto cmd = "ls ~ -C";
+		auto result = std_system_out(cmd);
+		std::cout << "status: " << std::get<0>(result) << std::endl;
+		std::cout << "out: \n" << std::get<1>(result) << std::endl;
+	}
+	return 0;
+}
