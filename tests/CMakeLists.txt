@@ -1,15 +1,14 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-cmake_minimum_required(VERSION 3.19)
-project(cmdout_tests CXX)
+cmake_minimum_required(VERSION 3.23)
+project(cmdout_tests LANGUAGES CXX)
 
 if(NOT TARGET cmdout)
     # Stand-alone build
     find_package(cmdout REQUIRED)
 endif()
 
-include(../cmake/utils.cmake)
 include(cmake/googletest.cmake)
 include(cmake/Catch2.cmake)
 
@@ -17,12 +16,10 @@ include(cmake/Catch2.cmake)
 # tests sources
 #########################
 set(CMDOUT_TESTS_SRCS
-    test_std_system.cpp
-    test_myvas_system.cpp
-    test_myvas_cmdout.cpp
+    src/test_std_system.cpp
+    src/test_myvas_system.cpp
+    src/test_myvas_cmdout.cpp
 )
-
-enable_testing()
 
 function(cmdout_prepare_test test_target cmdout_lib)
     add_executable(${test_target} ${CMDOUT_TESTS_SRCS})

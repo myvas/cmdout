@@ -1,26 +1,23 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-###################################
-# Find or fetch a CMake package
-#
-# googletest >=1.10.0
-# googletest
-###################################
+###############################################################################
+# Find or fetch a CMake package: googletest >=1.14.0
+###############################################################################
 
 set(googletest_VERSION_REQUIRED 1.14.0)
-
 find_package(googletest ${googletest_VERSION_REQUIRED} QUIET)
 if(googletest_FOUND)
     message(STATUS "Found googletest: ${googletest_VERSION}")
 else()
+    set(googletest_DOWNLOAD_URL https://github.com/google/googletest/archive/refs/tags/v${googletest_VERSION_REQUIRED}.tar.gz)
     message(STATUS "CMake package googletest ${googletest_VERSION_REQUIRED} or later not found!"
-        " Please wait for fetching from https://github.com/google/googletest"
+        " Please wait for fetching from ${googletest_DOWNLOAD_URL}"
     )
 
     include(FetchContent)
     FetchContent_Declare(googletest
-        URL https://github.com/google/googletest/archive/refs/tags/v${googletest_VERSION_REQUIRED}.tar.gz
+        URL ${googletest_DOWNLOAD_URL}
         DOWNLOAD_EXTRACT_TIMESTAMP ON
         OVERRIDE_FIND_PACKAGE
     )

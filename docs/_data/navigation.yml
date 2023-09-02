@@ -1,0 +1,23 @@
+nav:
+- section: "Get Started"
+  items:
+  - title: "Supported Platforms"
+	url: "platforms.html"
+  - title: "Quickstart: CMake"
+    url: "/quickstart-cmake.html"
+- section: "Guides"
+  items:
+  - title: "Primer"
+    url: "/primer.html"
+  - title: "Advanced Topics"
+    url: "/advanced.html"
+- section: "References"
+  items:
+  - title: "Executing Reference"
+    url: "/reference/executing.html"
+  - title: "Code Samples"
+    url: "/samples.html"
+  - title: "Using pkg-config"
+    url: "/pkgconfig.html"
+  - title: "Community Documentation"
+    url: "/community_created_documentation.html"

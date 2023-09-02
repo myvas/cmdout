@@ -3,10 +3,10 @@ exec_prefix=${prefix}
 includedir=@PKG_CONFIG_INCLUDEDIR@
 libdir=@PKG_CONFIG_LIBDIR@
 
-Name: lib@PROJECT_NAME@
-Description: myvas::cmdout library.
-URL: https://github.com/myvas/@PROJECT_NAME@
-Version: @CMDOUT_VERSION@
+Name: cmdout
+Description: cmdout - a C++ library for executing a shell command and get its output.
+URL: https://github.com/myvas/cmdout
+Version: @PROJECT_VERSION@
 CFlags: -I${includedir} @PKG_CONFIG_DEFINES@
 Libs: -L${libdir} -lcmdout -pthread
 Requires: @PKG_CONFIG_REQUIRES@
