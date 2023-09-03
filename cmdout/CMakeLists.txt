@@ -112,6 +112,7 @@ if(CMDOUT_INSTALL)
 	###########################
 	# Install pkg-config files
 	###########################
+	set(PKG_CONFIG_VERSION_STRING ${CMD_VERSION})
 	if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
 		set(PKG_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
 	else()
