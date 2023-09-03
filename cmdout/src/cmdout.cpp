@@ -5,7 +5,7 @@
  * @file  cmdout.cpp
  * @brief Implementation of class myvas::cmdout.
  */
-#include "cmdout.hpp"
+#include <cmdout/cmdout.hpp>
 
 namespace myvas {
 

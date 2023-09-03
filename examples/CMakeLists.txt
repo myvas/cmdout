@@ -17,8 +17,8 @@ target_sources(example_std_system_out PRIVATE "src/example_std_system_out.cpp")
 
 add_executable(example_myvas_system)
 target_sources(example_myvas_system PRIVATE "src/example_myvas_system.cpp")
-target_link_libraries(example_myvas_system PRIVATE myvas::cmdout)
+target_link_libraries(example_myvas_system PRIVATE cmdout)
 
 add_executable(example_myvas_cmdout)
 target_sources(example_myvas_cmdout PRIVATE "src/example_myvas_cmdout.cpp")
-target_link_libraries(example_myvas_cmdout PRIVATE myvas::cmdout)
+target_link_libraries(example_myvas_cmdout PRIVATE cmdout)

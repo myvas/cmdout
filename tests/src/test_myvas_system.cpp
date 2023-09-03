@@ -5,9 +5,10 @@
  * @file  test_myvas_system.cpp
  * @brief Unit test for function myvas::system().
  */
-#include <catch2/catch_test_macros.hpp>
 
-#include <cmdout.hpp>
+#include <cmdout/cmdout.hpp>
+
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("myvas::system") {
 	SECTION("with exit 0") {

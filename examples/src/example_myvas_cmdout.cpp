@@ -5,7 +5,7 @@
  * @file  example_myvas_cmdout.cpp
  * @brief example for class myvas::cmdout.
  */
-#include <cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.hpp>
 
 #include <iostream>
 #include <cassert>

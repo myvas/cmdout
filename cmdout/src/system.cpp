@@ -5,7 +5,7 @@
  * @file  system.cpp
  * @brief Implementation of function myvas::system().
  */
-#include "cmdout.hpp"
+#include <cmdout/cmdout.hpp>
 
 #include <array>
 #include <future>

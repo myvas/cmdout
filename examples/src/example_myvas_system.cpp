@@ -5,7 +5,7 @@
  * @file  example_myvas_system.cpp
  * @brief example for function myvas::system().
  */
-#include <cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.hpp>
 
 #include <iostream>
 #include <cassert>

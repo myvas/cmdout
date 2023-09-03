@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.23)
 # (3) Sync the download url in `README.md`.
 ###############################################################################
 project(cmdout_sln
-	VERSION 0.1.17
+	VERSION 0.1.18
 )
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 
@@ -71,7 +71,7 @@ if (CMDOUT_ENABLE_DOXYGEN)
 	set(DOXYGEN_SHOW_INCLUDE_FILES YES)
 	set(DOXYGEN_BINARY_TOC YES)
 	set(DOXYGEN_TOC_EXPAND YES)
-	set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "index.md")
+	set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "docs/index.md")
 	message(DEBUG "PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 	message(DEBUG "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 	doxygen_add_docs(cmdout_doxygen

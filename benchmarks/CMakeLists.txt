@@ -16,4 +16,4 @@ include(cmake/benchmark.cmake)
 ###########################
 add_executable(benchmarks "src/benchmarks.cpp")
 cmdout_enable_warnings(benchmarks)
-target_link_libraries(benchmarks PRIVATE myvas::cmdout benchmark::benchmark)
+target_link_libraries(benchmarks PRIVATE cmdout benchmark::benchmark)

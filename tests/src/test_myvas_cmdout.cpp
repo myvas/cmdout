@@ -5,9 +5,10 @@
  * @file  test_myvas_cmdout.cpp
  * @brief Unit test for class myvas::cmdout.
  */
-#include <catch2/catch_test_macros.hpp>
 
-#include <cmdout.hpp>
+#include <cmdout/cmdout.hpp>
+
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("myvas::cmdout") {
 	SECTION("with default arguments") {

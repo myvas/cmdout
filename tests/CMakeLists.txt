@@ -37,5 +37,5 @@ endfunction()
 # target tests
 ###########################
 if(CMDOUT_BUILD_TESTS OR CMDOUT_BUILD_ALL)
-    cmdout_prepare_test(tests myvas::cmdout)
+    cmdout_prepare_test(tests cmdout)
 endif()

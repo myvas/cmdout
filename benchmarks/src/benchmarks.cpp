@@ -5,7 +5,7 @@
  * @file  benchmarks.cpp
  * @brief benchmarks for myvas::cmdout.
  */
-#include "cmdout.hpp"
+#include <cmdout/cmdout.hpp>
 
 #include <iostream>
 

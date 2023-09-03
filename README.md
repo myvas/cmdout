@@ -1,5 +1,5 @@
 # myvas::cmdout
-The `myvas::cmdout` library provides facilities for executing shell commands and get their output before time runs out.
+The cmdout library provides facilities for executing shell commands and get their output before time runs out.
 
 ## Todo list
 - By now, it works on Linux; but it should work on more platforms.
@@ -9,22 +9,22 @@ The `myvas::cmdout` library provides facilities for executing shell commands and
 ```
 include(FetchContent)
 FetchContent_Declare(cmdout
-	URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.13.tar.gz
+	URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.18.tar.gz
 	DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 FetchContent_MakeAvailable(cmdout)
 
-target_link_libraries(<your_target> PRIVATE myvas::cmdout)
+target_link_libraries(<your_target> PRIVATE cmdout)
 ```
 ### Include the header file
 ```
-#include <cmdout.hpp>
+#include <cmdout/cmdout.hpp>
 ```
 
 ### Examples
 C++17 on GNU/Linux Debian 11 (bullseye)
 ```
-#include <cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.hpp>
 #include <cassert>
 //...
 int main() {
