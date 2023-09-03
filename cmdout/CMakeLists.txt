@@ -67,11 +67,11 @@ add_library(myvas::cmdout ALIAS cmdout)
 
 target_compile_definitions(cmdout PUBLIC CMDOUT_COMPILED_LIB)
 set(CMDOUT_TARGET_INCLUDE_DIRECTORIES
-	"$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include/cmdout>"
-	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/cmdout>"
+	"$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>"
+	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 target_include_directories(cmdout PUBLIC ${CMDOUT_TARGET_INCLUDE_DIRECTORIES})
-message(STATUS "INCLUDE_DIRECTORIES: $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include/cmdout>")
+message(STATUS "INCLUDE_DIRECTORIES: $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
 target_link_libraries(cmdout PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 #set_target_properties(cmdout PROPERTIES COMPILE_FLAGS "-pthread" LINK_FLAGS "-pthread")
 cmdout_enable_warnings(cmdout)
