@@ -8,6 +8,9 @@
 #include <iostream>
 #include <cassert>
 
+/**
+ * @brief example for function std::system().
+ */
 void example_std_system() {
 	std::cout << "*********************************" << std::endl;
 	std::cout << "*    function std::system()     *" << std::endl;

@@ -20,6 +20,10 @@ else()
     # Do not build and run googlebenchmark tests!
     ###############################################
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "")
+    set(BENCHMARK_INSTALL_DOCS OFF CACHE INTERNAL "")
+    set(BENCHMARK_ENABLE_INSTALL OFF CACHE INTERNAL "")
+    set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE INTERNAL "")
+    set(BENCHMARK_USE_BUNDLED_GTEST OFF CACHE INTERNAL "")
     FetchContent_Declare(benchmark
         URL ${benchmark_DOWNLOAD_URL}
         DOWNLOAD_EXTRACT_TIMESTAMP ON

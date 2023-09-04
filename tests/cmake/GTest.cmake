@@ -15,6 +15,7 @@ else()
     )
 
     include(FetchContent)
+    set(INSTALL_GTEST OFF CACHE INTERNAL "")
     FetchContent_Declare(GTest
         URL ${GTest_DOWNLOAD_URL}
         DOWNLOAD_EXTRACT_TIMESTAMP ON

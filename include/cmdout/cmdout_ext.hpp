@@ -12,7 +12,7 @@
 #include <ostream>
 
  /**
-  * @brief Helper for printing a cmdout object.
+  * @brief Helper for printing a myvas::cmdout object.
   */
 std::ostream& operator<<(std::ostream& os, const myvas::cmdout& value)
 {

@@ -18,9 +18,6 @@ To complete this tutorial, you'll need:
         [CMake Generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html)
         for more information.
 
-See [Supported Platforms](platforms.md) for more information about platforms
-compatible with cmdout.
-
 If you don't already have CMake installed, see the
 [CMake installation guide](https://cmake.org/install).
 
@@ -124,7 +121,5 @@ cmdout.
 
 ## Next steps
 
-*   [Check out the Primer](primer.md) to start learning how to write simple
-    tests.
-*   [See the code samples](samples.md) for more examples showing how to use a
+*   [See the examples](examples.md) for more examples showing how to use a
     variety of cmdout features.

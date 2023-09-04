@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  *
  * @file  cmdout.hpp
- * @brief This class myvas::cmdout and function myvas::system() is used to
- *        execute a shell command and get its output, within timeout feature.
+ * @brief Class myvas::cmdout is used to execute a shell command and get its output, within timeout feature.
+ * And function myvas::system() performs the executing logic.
  *
- * @see {std::system()}
+ * @see std::system() - The standard implementation in POSIX system.
  */
 #pragma once
 
@@ -35,7 +35,17 @@ public:
 	/**
 	 * @brief Gets the exit code after exec returned.
 	 *
-	 * @return The value is one of the following:
+	 * @remarks
+	 * The values defined in cstdlib:
+	 * - EXIT_SUCCESS - The shell command goes well and returns successfully.
+	 * - EXIT_FAILURE - The shell command executed and exit with 1.
+	 *
+	 * The values defined in cerrno:
+	 * - ETIME - The shell command does NOT return before time runs out.
+	 * - ENOENT - The shell command executed and exit with error "No such file or directory"
+	 * - ... - Please read the <stdlib.h> to get more possible values
+	 *
+	 * @return This value is one of the following:
 	 * - If cmd is empty, then a nonzero value if a shell is available, or 0 if
 	 * no shell is available.
 	 * - If a child process in cmd could not be created, or its status could not
@@ -54,6 +64,9 @@ public:
 
 	/**
 	 * @brief Gets the content of stdout (file descriptor 1).
+	 *
+	 * A string came from the `stdout`, i.e. the file descriptor 1 in POSIX system.
+	 * If you also want to get the `stderr`, append ` 2>&1` would be an answer in POSIX system.
 	 */
 	std::string out() const;
 	/**
@@ -88,13 +101,13 @@ public:
 	cmdout& timeout(int64_t);
 
 	/**
-	 * @brief Default to cmdout("exit 0").
+	 * @brief Default to myvas::cmdout("exit 0").
 	 */
 	cmdout();
 
 	/**
 	 * @brief Execute a shell command specified in cmd, waiting for the result until specified timeout (10 seconds) has elapsed.
-	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
+	 * @remarks A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
 	 *
 	 * @param cmd The cmd argument is a pointer to a null-terminated string
 	 * containing a shell command.
@@ -103,7 +116,7 @@ public:
 
 	/**
 	 * @brief Execute a shell command specified in cmd, waiting for the result until specified timeout has elapsed.
-	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and
+	 * @remarks A shell command with a tail of `2>&1` will catch both stdout and
 	 * stderr, otherwise stdout only.
 	 *
 	 * @param cmd The cmd argument is a pointer to a null-terminated string
@@ -115,7 +128,7 @@ public:
 
 	/**
 	 * @brief Execute a shell command specified in cmd, waiting for the result until specified timeout has elapsed.
-	 * NOTE: A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
+	 * @remarks A shell command with a tail of `2>&1` will catch both stdout and stderr, otherwise stdout only.
 	 *
 	 * @param cmd The cmd argument is a pointer to a null-terminated string
 	 * containing a shell command.
@@ -131,8 +144,6 @@ public:
 	 * @param timeout timeout duration. (If zero, defaults to 10 seconds)
 	 * @param status EXIT_SUCCESS, EXIT_FAILURE or errno
 	 * @param out output string
-	 *
-	 * @see cerrno and cstdlib.
 	 */
 	explicit cmdout(const std::string& cmd, std::chrono::milliseconds timeout, int status, const std::string& out);
 	/**
@@ -142,8 +153,6 @@ public:
 	 * @param timeout_ms timeout. (If zero, defaults to 10 seconds)
 	 * @param status EXIT_SUCCESS, EXIT_FAILURE or errno
 	 * @param out output string
-	 *
-	 * @see cerrno and cstdlib.
 	 */
 	explicit cmdout(const std::string& cmd, int64_t timeout_ms, int status, const std::string& out);
 
@@ -172,7 +181,7 @@ public:
 	/**
 	 * @brief Execute a specified shell command with arguments initialized in this class.
 	 *
-	 * @return The return value is a cmdout reference, in which wraps the status code
+	 * @return The return value is a myvas::cmdout reference, in which wraps the status code
 	 * and output string of the shell command.
 	 */
 	cmdout& exec();
@@ -183,7 +192,7 @@ public:
  *
  * @param cmd The cmd argument is a pointer to a null-terminated string containing a shell command.
  *
- * @return Returns a cmdout object (without timeout)
+ * @return Returns a myvas::cmdout object (without timeout)
  */
 cmdout system(const std::string& cmd);
 
@@ -193,7 +202,7 @@ cmdout system(const std::string& cmd);
  * @param cmd The cmd argument is a pointer to a null-terminated string containing a shell command.
  * @param timeout timeout duration, defaults to 10 seconds
  *
- * @return Returns a cmdout object
+ * @return Returns a myvas::cmdout object
  */
 cmdout system_timeout(const std::string& cmd, std::chrono::milliseconds timeout);
 
@@ -203,7 +212,7 @@ cmdout system_timeout(const std::string& cmd, std::chrono::milliseconds timeout)
  * @param cmd The cmd argument is a pointer to a null-terminated string containing a shell command.
  * @param timeout_ms timeout in milliseconds, defaults to 10 seconds
  *
- * @return Returns a cmdout object
+ * @return Returns a myvas::cmdout object
  */
 cmdout system_timeout_ms(const std::string& cmd, int64_t timeout_ms);
 

@@ -11,6 +11,10 @@
 #include <fstream>
 #include <tuple>
 
+/**
+ * @brief A simple implementation of executing a shell command and gets its output,
+ * via calling function std::system() and reading log files.
+ */
 std::tuple<int, std::string> std_system_out(const std::string& cmd)
 {
 	// warning: the use of `tmpnam' is dangerous, better use `mkstemp'

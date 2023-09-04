@@ -1,6 +1,11 @@
 # User's Guide
 
-## Welcome to myvas::cmdout!
+## Welcome to cmdout!
 
+* [Quickstart](quickstart-cmake.md) - Quick start here.
+* [Examples](examples.md) - Describes some examples.
 * [FAQ](faq.md) - Have a question? Want some tips? Check here first.
-* [Samples](samples.md) - Describes some samples
+
+## References in cmdout
+* [Files](files.html) - All documented files.
+* [Classes](annotated.html) - All classes.

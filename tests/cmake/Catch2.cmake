@@ -17,6 +17,8 @@ else()
     )
 
     include(FetchContent)
+    set(CATCH_INSTALL_DOCS OFF CACHE INTERNAL "")
+    set(CATCH_INSTALL_EXTRAS OFF CACHE INTERNAL "")
     FetchContent_Declare(Catch2
         URL ${Catch2_DOWNLOAD_URL}
         DOWNLOAD_EXTRACT_TIMESTAMP ON

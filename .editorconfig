@@ -1,0 +1,24 @@
+###############################
+# Core EditorConfig Options   #
+###############################
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+guidelines = 80 dashed, 100
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+# C++ files
+[*.{c++,cc,cpp,cxx,h,h++,hh,hpp,hxx,inl,ipp,tlh,tli}]
+cpp_indent_case_contents_when_block = true
+cpp_new_line_before_open_brace_namespace = same_line

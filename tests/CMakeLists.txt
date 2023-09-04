@@ -9,8 +9,9 @@ if(NOT TARGET cmdout)
     find_package(cmdout REQUIRED)
 endif()
 
-include(cmake/GTest.cmake)
-include(cmake/Catch2.cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(GTest)
+include(Catch2)
 
 #########################
 # tests sources
@@ -21,6 +22,7 @@ set(CMDOUT_TESTS_SRCS
     src/test_myvas_cmdout.cpp
 )
 
+# Build target for test
 function(cmdout_prepare_test test_target cmdout_lib)
     add_executable(${test_target} ${CMDOUT_TESTS_SRCS})
     cmdout_enable_warnings(${test_target})
