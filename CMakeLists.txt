@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.23)
 # (3) Sync the download url in `README.md`.
 ###############################################################################
 project(cmdout
-	VERSION 0.1.19
+	VERSION 0.1.20
 )
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
@@ -172,9 +172,12 @@ if (CMDOUT_DOCS_DOXYGEN)
 
 	set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "docs/index.md")
     set(DOXYGEN_EXCLUDE_PATTERNS "Doxyfile"
+        " Doxyfile.in"
         " CMakeLists.txt"
         " */cmake/*"
         " .gitignore"
+        " *.py"
+        " requirements.txt"
     )
 	doxygen_add_docs(cmdout_doxygen
 		docs include examples/src ALL

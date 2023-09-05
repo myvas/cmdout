@@ -38,7 +38,7 @@ std::tuple<int, std::string> std_system_out(const std::string& cmd)
 	return std::make_tuple(status, out);
 }
 
-int main(int argc, char* argv[]) {
+int main() {
 	{
 		auto cmd = "ls not-exist";
 		auto result = std_system_out(cmd);

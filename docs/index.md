@@ -6,6 +6,6 @@
 * [Examples](examples.md) - Describes some examples.
 * [FAQ](faq.md) - Have a question? Want some tips? Check here first.
 
-## References in cmdout
+## References
 * [Files](files.html) - All documented files.
 * [Classes](annotated.html) - All classes.
