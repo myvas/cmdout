@@ -10,9 +10,7 @@ cmake_minimum_required(VERSION 3.23)
 # (2) Add a new tag;
 # (3) Sync the download url in `README.md`.
 ###############################################################################
-project(cmdout
-	VERSION 0.1.20
-)
+project(cmdout VERSION 0.1.21)
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
@@ -37,18 +35,18 @@ message(STATUS "CMDOUT_MASTER_PROJECT: ${CMDOUT_MASTER_PROJECT}")
 # options
 ###############################################################################
 # Basic settings
-option(CMDOUT_BUILD_TESTS "Build tests" ${CMDOUT_MASTER_PROJECT})
+option(CMDOUT_BUILD_TESTING "Build tests" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_BUILD_EXAMPLES "Builds examples" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_BUILD_BENCHMARKS "Build benchmarks" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_INSTALL "Generate intall rules for the cmdout library" ON)
 option(CMDOUT_DOCS_DOXYGEN "Build documentation with Doxygen." ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_DOCS_INSTALL "Install the cmdout docs" ${CMDOUT_MASTER_PROJECT})
-mark_as_advanced(CMDOUT_BUILD_TESTS CMDOUT_BUILD_EXAMPLES CMDOUT_BUILD_BENCHMARKS
+mark_as_advanced(CMDOUT_BUILD_TESTING CMDOUT_BUILD_EXAMPLES CMDOUT_BUILD_BENCHMARKS
 	CMDOUT_DOCS_DOXYGEN CMDOUT_DOCS_INSTALL
 	CMDOUT_INSTALL
 )
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
-message(STATUS "CMDOUT_BUILD_TESTS: ${CMDOUT_BUILD_TESTS}")
+message(STATUS "CMDOUT_BUILD_TESTING: ${CMDOUT_BUILD_TESTING}")
 message(STATUS "CMDOUT_BUILD_EXAMPLES: ${CMDOUT_BUILD_EXAMPLES}")
 message(STATUS "CMDOUT_BUILD_BENCHMARKS: ${CMDOUT_BUILD_BENCHMARKS}")
 message(STATUS "CMDOUT_INSTALL: ${CMDOUT_INSTALL}")
@@ -123,9 +121,10 @@ endif()
 ########################
 # subprojects
 ########################
-if(CMDOUT_BUILD_TESTS)
+if(CMDOUT_BUILD_TESTING)
 	message(STATUS "Generating tests")
-	enable_testing()
+    include(CTest)
+	#enable_testing()
 	add_subdirectory(tests)
 endif()
 if(CMDOUT_BUILD_EXAMPLES)

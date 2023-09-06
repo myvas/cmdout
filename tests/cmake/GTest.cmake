@@ -4,6 +4,7 @@
 ###############################################################################
 # Find or fetch a CMake package: GTest >=1.14.0
 ###############################################################################
+
 set(GTest_VERSION_REQUIRED 1.14.0)
 find_package(GTest ${googletest_VERSION_REQUIRED} QUIET)
 if(GTest_FOUND)
