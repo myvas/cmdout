@@ -2,94 +2,59 @@
  * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
  *
- * @file  benchmarks.cpp
- * @brief benchmarks for myvas::cmdout.
+ * @file  benchmark_std_system.cpp
+ * @brief benchmark for function std::system() with output.
  */
+#include <benchmark/benchmark.h>
+
 #include <cmdout/cmdout.hpp>
+#include <cmdout/experimental/std_system_out.hpp>
 
-#include <iostream>
-
-static const int default_iters = 10000;
-
-void benchmark_std_system(int iters)
+static void BM_std_system(benchmark::State &state)
 {
-	using std::chrono::duration;
-	using std::chrono::duration_cast;
-	using std::chrono::high_resolution_clock;
-
-	auto start = high_resolution_clock::now();
-	for (auto i = 0; i < iters; ++i)
-	{
-		std::system("exit 0");
-	}
-
-	auto delta = high_resolution_clock::now() - start;
-	auto delta_d = duration_cast<duration<double>>(delta).count();
-	auto result = iters / delta_d;
-	std::cout << "std::system(\"exit 0\"):          runs " << iters
-		<< " times, elapsed " << delta.count()
-		<< " ns, result: " << result << " x/s" << std::endl;
+    // Perform setup here
+    for (auto _ : state)
+    {
+        // This code gets timed
+        std::system("exit 0");
+    }
 }
 
-void benchmark_myvas_system(int iters)
+static void BM_myvas_system(benchmark::State &state)
 {
-	using std::chrono::duration;
-	using std::chrono::duration_cast;
-	using std::chrono::high_resolution_clock;
-
-	auto start = high_resolution_clock::now();
-	for (auto i = 0; i < iters; ++i)
-	{
-		myvas::system("exit 0");
-	}
-
-	auto delta = high_resolution_clock::now() - start;
-	auto delta_d = duration_cast<duration<double>>(delta).count();
-	auto result = iters / delta_d;
-	std::cout << "myvas::system(\"exit 0\"):        runs " << iters
-		<< " times, elapsed " << delta.count()
-		<< " ns, result: " << result << " x/s" << std::endl;
+    // Perform setup here
+    for (auto _ : state)
+    {
+        // This code gets timed
+        myvas::system("exit 0");
+    }
 }
 
-void benchmark_myvas_cmdout(int iters)
+static void BM_myvas_cmdout(benchmark::State &state)
 {
-	using std::chrono::duration;
-	using std::chrono::duration_cast;
-	using std::chrono::high_resolution_clock;
-
-	auto start = high_resolution_clock::now();
-	for (auto i = 0; i < iters; ++i)
-	{
-		myvas::cmdout("exit 0").exec();
-	}
-
-	auto delta = high_resolution_clock::now() - start;
-	auto delta_d = duration_cast<duration<double>>(delta).count();
-	auto result = iters / delta_d;
-	std::cout << "myvas::cmdout(\"exit 0\").exec(): runs " << iters
-		<< " times, elapsed " << delta.count()
-		<< " ns, result: " << result << " x/s" << std::endl;
+    // Perform setup here
+    for (auto _ : state)
+    {
+        // This code gets timed
+        myvas::cmdout("exit 0").exec();
+    }
 }
 
-void benchmark(int iters) {
-	benchmark_std_system(iters);
-	benchmark_myvas_system(iters);
-	benchmark_myvas_cmdout(iters);
+static void BM_std_system_out(benchmark::State &state)
+{
+    // Perform setup here
+    for (auto _ : state)
+    {
+        // This code gets timed
+        myvas::experimental::std_system_out("exit 0");
+    }
 }
 
-int main(int argc, char* argv[]) {
-	int iters = default_iters;
-	try {
-		if (argc > 1) {
-			iters = std::stoi(argv[1]);
-		}
+// Register the function as a benchmark
+BENCHMARK(BM_std_system);
+BENCHMARK(BM_std_system_out);
+BENCHMARK(BM_myvas_system);
+BENCHMARK(BM_myvas_cmdout);
 
-		benchmark(iters);
-	}
-	catch (std::exception& ex)
-	{
-		std::cerr << ex.what() << std::endl;
-		return EXIT_FAILURE;
-	}
-	return EXIT_SUCCESS;
-}
+// Run the benchmark
+BENCHMARK_MAIN();

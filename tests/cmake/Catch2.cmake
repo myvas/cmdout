@@ -15,7 +15,6 @@ else()
     message(STATUS "CMake package Catch2 ${Catch2_VERSION_REQUIRED} or later not found!"
         " Please wait for fetching from ${Catch2_DOWNLOAD_URL}"
     )
-
     include(FetchContent)
     set(CATCH_INSTALL_DOCS OFF CACHE INTERNAL "")
     set(CATCH_INSTALL_EXTRAS OFF CACHE INTERNAL "")

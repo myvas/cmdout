@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.23)
 # (2) Add a new tag;
 # (3) Sync the download url in `README.md`.
 ###############################################################################
-project(cmdout VERSION 0.1.21)
+project(cmdout VERSION 0.1.22)
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
@@ -85,7 +85,10 @@ endif()
 # Build Static/Shared library
 ################################
 set(CMDOUT_SRCS
-	"src/cmdout.cpp" "src/system.cpp"
+	"src/cmdout.cpp"
+    "src/system.cpp"
+    "src/cmdout_ext.cpp"
+    "src/experimental/std_system_out.cpp"
 )
 if(CMDOUT_BUILD_SHARED OR BUILD_SHARED_LIBS)
 	if(WIN32)
@@ -124,15 +127,11 @@ endif()
 if(CMDOUT_BUILD_TESTING)
 	message(STATUS "Generating tests")
     include(CTest)
-	#enable_testing()
 	add_subdirectory(tests)
 endif()
 if(CMDOUT_BUILD_EXAMPLES)
 	message(STATUS "Generating examples")
 	add_subdirectory(examples)
-	cmdout_enable_warnings(example_myvas_system)
-	cmdout_enable_warnings(example_std_system)
-	cmdout_enable_warnings(example_myvas_cmdout)
 endif()
 if(CMDOUT_BUILD_BENCHMARKS)
 	message(STATUS "Generating benchmarks")

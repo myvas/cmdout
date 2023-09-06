@@ -4,25 +4,25 @@
 
 Here is a common C++17 code to execute a shell command and get its output:
 
-file: example_std_system_out.cpp
-
-### main
+### example
+file: examples/example_std_system_out.cpp
 ```
+int main() {
 {
 	auto cmd = "ls not-exist";
 	auto result = system_stdout(cmd);
 	std::cout << "status: " << std::get<0>(result) << std::endl;
 	std::cout << "out: \n" << std::get<1>(result) << std::endl;
-}
-{
+}{
 	auto cmd = "ls ~ -C";
 	auto result = system_stdout(cmd);
 	std::cout << "status: " << std::get<0>(result) << std::endl;
 	std::cout << "out: \n" << std::get<1>(result) << std::endl;
-}
+}}
 ```
 
 ### function std_system_out()
+file: src/experimental/std_system_out.cpp
 ```
 #include <cstdio>
 #include <string>
@@ -54,4 +54,5 @@ std::tuple<int, std::string> std_system_out(const std::string& cmd)
 ```
 It works!
 But it is neither smart nor effective. Furthermore, it lacks asynchorization or cancellation mechanism to avoid block in a long time.
-So we must improve it! Just use cmdout!
+
+So we must improve it! Just use myvas::cmdout!

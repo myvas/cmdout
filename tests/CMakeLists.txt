@@ -15,6 +15,7 @@ include(TestUtils)
 
 if(CMDOUT_BUILD_TESTING)
     cmdout_add_test(test_std_system src/test_std_system.cpp)
+    cmdout_add_test(test_std_system_out src/test_std_system_out.cpp DEPENDS cmdout)
     cmdout_add_test(test_myvas_system src/test_myvas_system.cpp DEPENDS cmdout)
     cmdout_add_test(test_myvas_cmdout src/test_myvas_cmdout.cpp DEPENDS cmdout)
 endif()

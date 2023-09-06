@@ -14,7 +14,6 @@ else()
     message(STATUS "CMake package GTest ${GTest_VERSION_REQUIRED} or later not found!"
         " Please wait for fetching from ${GTest_DOWNLOAD_URL}"
     )
-
     include(FetchContent)
     set(INSTALL_GTEST OFF CACHE INTERNAL "")
     FetchContent_Declare(GTest

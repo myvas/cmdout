@@ -9,7 +9,7 @@ The cmdout library provides facilities for executing shell commands and get thei
 ```
 include(FetchContent)
 FetchContent_Declare(cmdout
-	URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.21.tar.gz
+	URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.22.tar.gz
 	DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 FetchContent_MakeAvailable(cmdout)
@@ -91,7 +91,21 @@ All tests passed (33 assertions in 3 test cases)
 
 ## Benchmarks
 ```
-std::system("exit 0"):          runs 10000 times, elapsed 5366836922 ns, result: 1863.29 x/s
-myvas::system("exit 0"):        runs 10000 times, elapsed 5872007506 ns, result: 1702.48 x/s
-myvas::cmdout("exit 0").exec(): runs 10000 times, elapsed 6787948119 ns, result: 1473.21 x/s
+./benchmarks/benchmarks
+2023-09-06T13:07:51+08:00
+Running ./benchmarks
+Run on (4 X 2893.41 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 4096 KiB (x1)
+Load Average: 1.81, 1.24, 0.94
+------------------------------------------------------------
+Benchmark                  Time             CPU   Iterations
+------------------------------------------------------------
+BM_std_system        1587179 ns        81671 ns         8562
+BM_std_system_out    1751184 ns       147665 ns         4749
+BM_myvas_system      1639949 ns       100367 ns         7086
+BM_myvas_cmdout      1760044 ns        56635 ns        12510
 ```
