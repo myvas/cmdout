@@ -84,7 +84,7 @@ int main() {
 }
 ```
 
-## tests
+## Tests
 ```
 All tests passed (33 assertions in 3 test cases)
 ```
