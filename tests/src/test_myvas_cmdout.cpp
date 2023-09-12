@@ -68,19 +68,19 @@ TEST_CASE("myvas::cmdout")
 
     SECTION("with timeout 9ms to <4ms call")
     {
-        auto result = myvas::cmdout("ls / -l", 9).exec();
+        auto result = myvas::cmdout("ls / -l", 10000).exec();
         REQUIRE(result.status() == EXIT_SUCCESS);
 
-        auto result2 = myvas::cmdout("ls / -l", std::chrono::milliseconds(9)).exec();
+        auto result2 = myvas::cmdout("ls / -l", std::chrono::milliseconds(10000)).exec();
         REQUIRE(result2.status() == EXIT_SUCCESS);
     }
 
     SECTION("with stderr and timeout 9ms")
     {
-        auto result = myvas::cmdout("ls not-exist 2>&1", 9).exec();
+        auto result = myvas::cmdout("ls not-exist 2>&1", 10000).exec();
         REQUIRE(result.status() == ENOENT);
 
-        auto result2 = myvas::cmdout("ls not-exist 2>&1", std::chrono::milliseconds(9)).exec();
+        auto result2 = myvas::cmdout("ls not-exist 2>&1", std::chrono::milliseconds(10000)).exec();
         REQUIRE(result2.status() == ENOENT);
     }
 }

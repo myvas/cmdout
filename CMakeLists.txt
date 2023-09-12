@@ -1,7 +1,7 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.25)
 
 ###############################################################################
 # NOTE:
@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.23)
 # (2) Add a new tag;
 # (3) Sync the download url in `README.md`.
 ###############################################################################
-project(cmdout VERSION 0.1.22)
+project(cmdout VERSION 0.1.23)
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
@@ -143,6 +143,10 @@ endif()
 ###################
 include(GNUInstallDirs)
 if (CMDOUT_DOCS_DOXYGEN)
+    # Require Doxygen 1.9.4
+    #   apt install doxygen
+    # Require GraphViz (dot) 2.43.0
+    #   apt install graphviz
 	# Require dot, treat the other components as optional
     find_package(Doxygen REQUIRED dot
         OPTIONAL_COMPONENTS mscgen dia

@@ -1,4 +1,4 @@
-#Look for an executable called sphinx-build
+#Look for an executable called sphinx-build >=5.3.0
 find_program(SPHINX_EXECUTABLE
     NAMES "sphinx-build"
     DOC "Path to sphinx-build executable"

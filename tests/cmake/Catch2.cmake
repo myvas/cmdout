@@ -1,11 +1,13 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-###############################################################################
-# Find or fetch a CMake package: Catch2 >=3.0.1
-###############################################################################
+#[========================================[.rst:
+Find or fetch a CMake package: Catch2 >=3.4.0
+-----------------------------------------------
 
-set(Catch2_VERSION_REQUIRED 3.0.1)
+#]========================================]
+
+set(Catch2_VERSION_REQUIRED 3.3.2)
 find_package(Catch2 ${Catch2_VERSION_REQUIRED} QUIET)
 if(Catch2_FOUND)
     message(STATUS "Found Catch2: ${Catch2_VERSION}")

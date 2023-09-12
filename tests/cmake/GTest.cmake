@@ -1,15 +1,28 @@
 # Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
 
-###############################################################################
-# Find or fetch a CMake package: GTest >=1.14.0
-###############################################################################
+#[========================================[.rst:
+Find or fetch a CMake package: gtest >=1.12.1
+---------------------------------------------
 
-set(GTest_VERSION_REQUIRED 1.14.0)
-find_package(GTest ${googletest_VERSION_REQUIRED} QUIET)
+How to install googletest on Debian 12 (bookworm)?
+
+    .. code-block:: bash
+        apt install googletest
+        cd /usr/src/googletest
+        cmake .
+        make
+        make install
+        pkg-config --path --modversion gtest
+#]========================================]
+
+set(GTest_VERSION_REQUIRED 1.12.1)
+
+find_package(GTest ${GTest_VERSION_REQUIRED} QUIET)
 if(GTest_FOUND)
     message(STATUS "Found GTest: ${GTest_VERSION}")
 else()
+    #message(FATAL_ERROR "GTest ${GTest_VERSION_REQUIRED} or later required!")
     set(GTest_DOWNLOAD_URL https://github.com/google/googletest/archive/refs/tags/v${GTest_VERSION_REQUIRED}.tar.gz)
     message(STATUS "CMake package GTest ${GTest_VERSION_REQUIRED} or later not found!"
         " Please wait for fetching from ${GTest_DOWNLOAD_URL}"

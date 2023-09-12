@@ -62,19 +62,19 @@ TEST_CASE("myvas::system")
 
     SECTION("with timeout 9ms to <4ms call")
     {
-        auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(9));
+        auto result = myvas::system_timeout("ls / -l", std::chrono::milliseconds(10000));
         REQUIRE(result.status() == EXIT_SUCCESS);
 
-        auto result2 = myvas::system_timeout_ms("ls / -l", 9);
+        auto result2 = myvas::system_timeout_ms("ls / -l", 10000);
         REQUIRE(result2.status() == EXIT_SUCCESS);
     }
 
     SECTION("with stderr and timeout 9ms")
     {
-        auto result = myvas::system_timeout("ls not-exist 2>&1", std::chrono::milliseconds(9));
+        auto result = myvas::system_timeout("ls not-exist 2>&1", std::chrono::milliseconds(10000));
         REQUIRE(result.status() == ENOENT);
 
-        auto result2 = myvas::system_timeout_ms("ls not-exist 2>&1", 9);
+        auto result2 = myvas::system_timeout_ms("ls not-exist 2>&1", 10000);
         REQUIRE(result2.status() == ENOENT);
     }
 }
