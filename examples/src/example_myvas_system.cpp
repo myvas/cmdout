@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  example_myvas_system.cpp
  * @brief example for function myvas::system().
  */
-#include <cmdout/cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.h>
 
 #include <iostream>
 #include <cassert>

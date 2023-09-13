@@ -1,5 +1,5 @@
-# Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2023 Myvas Foundation
 
 cmake_minimum_required(VERSION 3.25)
 
@@ -10,12 +10,15 @@ cmake_minimum_required(VERSION 3.25)
 # (2) Add a new tag;
 # (3) Sync the download url in `README.md`.
 ###############################################################################
-project(cmdout VERSION 0.1.23)
+project(cmdout VERSION 0.2.0
+    DESCRIPTION "a C++ library for executing a shell command and get its output."
+    LANGUAGES CXX
+)
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
 # include modules
-find_package(Threads)
+find_package(Threads REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(utils)
 
@@ -39,30 +42,13 @@ option(CMDOUT_BUILD_TESTING "Build tests" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_BUILD_EXAMPLES "Builds examples" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_BUILD_BENCHMARKS "Build benchmarks" ${CMDOUT_MASTER_PROJECT})
 option(CMDOUT_INSTALL "Generate intall rules for the cmdout library" ON)
-option(CMDOUT_DOCS_DOXYGEN "Build documentation with Doxygen." ${CMDOUT_MASTER_PROJECT})
-option(CMDOUT_DOCS_INSTALL "Install the cmdout docs" ${CMDOUT_MASTER_PROJECT})
-mark_as_advanced(CMDOUT_BUILD_TESTING CMDOUT_BUILD_EXAMPLES CMDOUT_BUILD_BENCHMARKS
-	CMDOUT_DOCS_DOXYGEN CMDOUT_DOCS_INSTALL
-	CMDOUT_INSTALL
+option(CMDOUT_BUILD_SHARED_LIBS "Build a shared library, otherwise a static library" OFF)
+mark_as_advanced(CMDOUT_BUILD_TESTING
+    CMDOUT_BUILD_EXAMPLES CMDOUT_BUILD_BENCHMARKS
 )
-message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
-message(STATUS "CMDOUT_BUILD_TESTING: ${CMDOUT_BUILD_TESTING}")
-message(STATUS "CMDOUT_BUILD_EXAMPLES: ${CMDOUT_BUILD_EXAMPLES}")
-message(STATUS "CMDOUT_BUILD_BENCHMARKS: ${CMDOUT_BUILD_BENCHMARKS}")
 message(STATUS "CMDOUT_INSTALL: ${CMDOUT_INSTALL}")
-message(STATUS "CMDOUT_DOCS_DOXYGEN: ${CMDOUT_DOCS_DOXYGEN}")
-message(STATUS "CMDOUT_DOCS_INSTALL: ${CMDOUT_DOCS_INSTALL}")
-
-# Advanced settings
-option(CMDOUT_BUILD_SHARED "Build shared library" OFF)
-option(CMDOUT_BUILD_PIC "Build position independent code (-fPIC)" ON)
-option(CMDOUT_SANITIZE_ADDRESS "Enable address sanitizer in tests" OFF)
-option(CMDOUT_BUILD_WARNINGS "Enable compiler warnings" OFF)
-mark_as_advanced(CMDOUT_BUILD_SHARED CMDOUT_BUILD_PIC CMDOUT_SANITIZE_ADDRESS CMDOUT_BUILD_WARNINGS)
-message(STATUS "CMDOUT_BUILD_SHARED: ${CMDOUT_BUILD_SHARED}")
-message(STATUS "CMDOUT_BUILD_PIC: ${CMDOUT_BUILD_PIC}")
-message(STATUS "CMDOUT_SANITIZE_ADDRESS: ${CMDOUT_SANITIZE_ADDRESS}")
-message(STATUS "CMDOUT_BUILD_WARNINGS: ${CMDOUT_BUILD_WARNINGS}")
+message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
+message(STATUS "CMDOUT_BUILD_SHARED_LIBS: ${CMDOUT_BUILD_SHARED_LIBS}")
 
 ##############################
 # main project: cmdout
@@ -77,10 +63,6 @@ if(NOT CYGWIN AND NOT MSYS AND NOT ${CMAKE_SYSTEM_NAME} STREQUAL QNX)
 	set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
-if(CMDOUT_BUILD_PIC)
-	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
-
 ################################
 # Build Static/Shared library
 ################################
@@ -90,36 +72,25 @@ set(CMDOUT_SRCS
     "src/cmdout_ext.cpp"
     "src/experimental/std_system_out.cpp"
 )
-if(CMDOUT_BUILD_SHARED OR BUILD_SHARED_LIBS)
+if(CMDOUT_BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
 	if(WIN32)
 		configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
 		list(APPEND CMDOUT_SRCS ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 	endif()
-	add_library(cmdout SHARED ${CMDOUT_SRCS} ${CMDOUT_ALL_HEADERS})
-	target_compile_definitions(cmdout PUBLIC CMDOUT_SHARED_LIB)
+	add_library(cmdout SHARED ${CMDOUT_SRCS})
 else()
-	add_library(cmdout STATIC ${CMDOUT_SRCS} ${CMDOUT_ALL_HEADERS})
+	add_library(cmdout STATIC ${CMDOUT_SRCS})
 endif()
-add_library(myvas::cmdout ALIAS cmdout)
-
-target_compile_definitions(cmdout PUBLIC CMDOUT_COMPILED_LIB)
-set(CMDOUT_TARGET_INCLUDE_DIRECTORIES
-	"$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>"
+target_include_directories(cmdout PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>"
 	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-target_include_directories(cmdout PUBLIC ${CMDOUT_TARGET_INCLUDE_DIRECTORIES})
-message(STATUS "INCLUDE_DIRECTORIES: $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
 target_link_libraries(cmdout PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-#set_target_properties(cmdout PROPERTIES COMPILE_FLAGS "-pthread" LINK_FLAGS "-pthread")
-cmdout_enable_warnings(cmdout)
-
 set_target_properties(cmdout PROPERTIES
 	VERSION ${CMDOUT_VERSION}
 	SOVERSION ${CMDOUT_SOVERSION}
 )
-if(CMDOUT_MASTER_PROJECT)
-	set_target_properties(cmdout PROPERTIES DEBUG_POSTFIX d)
-endif()
+add_library(myvas::cmdout ALIAS cmdout)
 
 ########################
 # subprojects
@@ -138,11 +109,11 @@ if(CMDOUT_BUILD_BENCHMARKS)
 	add_subdirectory(benchmarks)
 endif()
 
-###################
-# install docs
-###################
 include(GNUInstallDirs)
-if (CMDOUT_DOCS_DOXYGEN)
+if (CMDOUT_INSTALL)
+    ###################
+    # install docs
+    ###################
     # Require Doxygen 1.9.4
     #   apt install doxygen
     # Require GraphViz (dot) 2.43.0
@@ -186,79 +157,169 @@ if (CMDOUT_DOCS_DOXYGEN)
 		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 		COMMENT "Building documentation with Doxygen."
 	)
-
-	if (CMDOUT_INSTALL AND CMDOUT_DOCS_INSTALL)
-		install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
-			DESTINATION ${CMAKE_INSTALL_DOCDIR}
-		)
-	endif()
-else()
-	if(CMDOUT_INSTALL AND CMDOUT_DOCS_INSTALL)
-		install(DIRECTORY "${PROJECT_SOURCE_DIR}/docs/"
-			DESTINATION ${CMAKE_INSTALL_DOCDIR}
-		)
-	endif()
-endif()
-
-##########################
-# install cmdout library
-##########################
-include(GNUInstallDirs)
-if(CMDOUT_INSTALL)
-	message(STATUS "Generating install")
-
-	set(project_config_in "${CMAKE_CURRENT_LIST_DIR}/cmake/cmdoutConfig.cmake.in")
-	set(project_config_out "${CMAKE_CURRENT_BINARY_DIR}/cmdoutConfig.cmake")
-	set(config_targets_file "cmdoutConfigTargets.cmake")
-	set(version_config_file "${CMAKE_CURRENT_BINARY_DIR}/cmdoutConfigVersion.cmake")
-	set(export_dest_dir "${CMAKE_INSTALL_LIBDIR}/cmake/cmdout")
-	set(pkgconfig_install_dir "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
-	set(pkg_config "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc")
+	install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
+		DESTINATION ${CMAKE_INSTALL_DOCDIR}
+	)
 
 	#################
 	# Install files
 	#################
-	install(TARGETS cmdout
-		EXPORT cmdout
-		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    # <prefix>/include/xxx
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+    # <prefix>/lib/libxxx.a, libxxx.so
+    install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
+        # these get default values from GNUInstallDirs, no need to set them
+        #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # bin
+        #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
+        #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
 	)
 
-	###########################
-	# Install pkg-config files
-	###########################
-	set(PKG_CONFIG_VERSION_STRING ${CMD_VERSION})
-	if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
-		set(PKG_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
-	else()
-		set(PKG_CONFIG_INCLUDEDIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
-	endif()
-	if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
-		set(PKG_CONFIG_LIBDIR "${CMAKE_INSTALL_LIBDIR}")
-	else()
-		set(PKG_CONFIG_LIBDIR "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
-	endif()
-	get_target_property(PKG_CONFIG_DEFINES cmdout INTERFACE_COMPILE_DEFINITIONS)
-	string(REPLACE ";" " -D" PKG_CONFIG_DEFINES "${PKG_CONFIG_DEFINES}")
-	string(CONCAT PKG_CONFIG_DEFINES "-D" "${PKG_CONFIG_DEFINES}")
-	configure_file("cmake/${PROJECT_NAME}.pc.in" "${pkg_config}" @ONLY)
-	install(FILES "${pkg_config}" DESTINATION "${pkgconfig_install_dir}")
+    # pkg-config files: <prefix>/share/pkgconfig/xxx.pc
+	message(STATUS "Generating pkg-config files")
+    set(PKG_CONFIG_VERSION_STRING ${PROJECT_VERSION})
+    if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+        set(PKG_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+    else()
+        set(PKG_CONFIG_INCLUDEDIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+    endif()
+    if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+        set(PKG_CONFIG_LIBDIR "${CMAKE_INSTALL_LIBDIR}")
+    else()
+        set(PKG_CONFIG_LIBDIR "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
+    endif()
+    get_target_property(PKG_CONFIG_CFLAGS ${PROJECT_NAME} INTERFACE_COMPILE_DEFINITIONS)
+    if(PKG_CONFIG_CFLAGS)
+        string(REPLACE ";" " -D" PKG_CONFIG_CFLAGS "${PKG_CONFIG_CFLAGS}")
+        string(CONCAT PKG_CONFIG_CFLAGS "-D" "${PKG_CONFIG_CFLAGS}")
+    else()
+        set(PKG_CONFIG_CFLAGS "")
+    endif()
+    configure_file("cmake/${PROJECT_NAME}.pc.in" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc" @ONLY)
+    install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc"
+        DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig"
+    )
 
-	#############################
-	# Install CMake config files
-	#############################
-	export(TARGETS cmdout NAMESPACE myvas:: FILE "${CMAKE_CURRENT_BINARY_DIR}/${config_targets_file}")
-	install(EXPORT cmdout DESTINATION ${export_dest_dir} NAMESPACE myvas:: FILE ${config_targets_file})
+    # CMake files
+    # /usr/lib/cmake/
+    # Targets: xxxTargets.cmake
+    # find_package in Config mode: xxxConfig.cmake, xxxConfigVersion.cmake
+    export(TARGETS ${PROJECT_NAME}
+        #NAMESPACE myvas::
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake"
+    )
+    install(EXPORT ${PROJECT_NAME}Targets
+        #NAMESPACE myvas::
+        FILE "${PROJECT_NAME}Targets.cmake"
+        DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PROJECT_NAME}"
+    )
+    include(CMakePackageConfigHelpers)
+    configure_package_config_file("${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PROJECT_NAME}"
+    )
+    write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        COMPATIBILITY SameMajorVersion
+    )
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PROJECT_NAME}"
+    )
 
-	include(CMakePackageConfigHelpers)
-	configure_package_config_file("${project_config_in}" "${project_config_out}" INSTALL_DESTINATION ${export_dest_dir})
+    ######################################################
+    # CPack
+    ######################################################
+    # options
+    option(CAE_CPACK_BINARY_DEB "Pack a .deb file for deployment" ON)
+    option(CAE_CPACK_BINARY_STGZ "Pack a .sh file for deployment" OFF)
+    option(CAE_CPACK_BINARY_TGZ "Pack a .tar.gz file for deployment" OFF)
+    option(CAE_CPACK_BINARY_TXZ "Pack a .tar.xz file for deployment" OFF)
+    option(CAE_CPACK_SOURCE_TGZ "Pack a .tar.gz file for sourcecodes" OFF)
+    option(CAE_CPACK_SOURCE_TXZ "Pack a .tar.gz file for sourcecodes" ON)
 
-	write_basic_package_version_file("${version_config_file}" COMPATIBILITY SameMajorVersion)
-	install(FILES "${project_config_out}" "${version_config_file}" DESTINATION "${export_dest_dir}")
+    # config and properties
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPackOptions.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/CPackOptions.cmake" @ONLY)
+    set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/CPackOptions.cmake")
 
-	###########################################
-	# Support creation of installable packages
-	###########################################
-	include(cmake/cmdoutCPack.cmake)
+    unset(CAE_CPACK_BINARY_GENERATOR_LIST)
+    if(CAE_CPACK_BINARY_DEB)
+        set(CPACK_BINARY_DEB "ON")
+        list(APPEND CAE_CPACK_BINARY_GENERATOR_LIST "DEB")
+    else()
+        set(CPACK_BINARY_DEB "OFF")
+    endif()
+    if(CAE_CPACK_BINARY_STGZ)
+        set(CPACK_BINARY_STGZ "ON")
+        list(APPEND CAE_CPACK_BINARY_GENERATOR_LIST "STGZ")
+    else()
+        set(CPACK_BINARY_STGZ "OFF")
+    endif()
+    if(CAE_CPACK_BINARY_TGZ)
+        set(CPACK_BINARY_TGZ "ON")
+        list(APPEND CAE_CPACK_BINARY_GENERATOR_LIST "TGZ")
+    else()
+        set(CPACK_BINARY_TGZ "OFF")
+    endif()
+    if(CAE_CPACK_BINARY_TXZ)
+        set(CPACK_BINARY_TXZ "ON")
+        list(APPEND CAE_CPACK_BINARY_GENERATOR_LIST "TXZ")
+    else()
+        set(CPACK_BINARY_TXZ "OFF")
+    endif()
+    set(CPACK_BINARY_TZ "OFF")
+    message(STATUS "CAE_CPACK_BINARY_GENERATOR_LIST: ${CAE_CPACK_BINARY_GENERATOR_LIST}")
+    set(CPACK_GENERATOR ${CAE_CPACK_BINARY_GENERATOR_LIST})
+
+    set(CPACK_SOURCE_IGNORE_FILES
+        # default ignore files in CPack.cmake
+        "/CVS/"
+        "/\\\\.svn/"
+        "/\\\\.bzr/"
+        "/\\\\.hg/"
+        "/\\\\.git/"
+        "\\\\.swp$"
+        "\\\\.#"
+        "/#"
+
+        # Files specific to version control.
+        #"/\\\\.git/"
+        "/\\\\.gitattributes$"
+        "/\\\\.github/"
+        "/\\\\.gitignore$"
+        "/\\\\.hooks-config$"
+
+        # Files produced by IDE.
+        "/\\\\.vs/"
+        "/\\\\.vscode/"
+        "/out/"
+        "/\\\\.build/"
+
+        # Temporary files.
+        "~$"
+
+        # Others
+        "/\\\\.readthedocs\\\\.yaml"
+    )
+    unset(CAE_CPACK_SOURCE_GENERATOR_LIST)
+    if(CAE_CPACK_SOURCE_TGZ)
+        set(CPACK_SOURCE_TGZ "ON")
+        list(APPEND CAE_CPACK_SOURCE_GENERATOR_LIST "TGZ")
+    else()
+        set(CPACK_SOURCE_TGZ "OFF")
+    endif()
+    if(CAE_CPACK_SOURCE_TXZ)
+        set(CPACK_SOURCE_TXZ "ON")
+        list(APPEND CAE_CPACK_SOURCE_GENERATOR_LIST "TXZ")
+    else()
+        set(CPACK_SOURCE_TXZ "OFF")
+    endif()
+    set(CPACK_SOURCE_TZ "OFF")
+    set(CPACK_SOURCE_TBZ2 "OFF")
+    message(STATUS "CAE_CPACK_SOURCE_GENERATOR_LIST: ${CAE_CPACK_SOURCE_GENERATOR_LIST}")
+    set(CPACK_SOURCE_GENERATOR ${CAE_CPACK_SOURCE_GENERATOR_LIST})
+
+    include(CPack)
 endif()

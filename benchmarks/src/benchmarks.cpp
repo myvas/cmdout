@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  benchmark_std_system.cpp
  * @brief benchmark for function std::system() with output.
  */
 #include <benchmark/benchmark.h>
 
-#include <cmdout/cmdout.hpp>
-#include <cmdout/experimental/std_system_out.hpp>
+#include <cmdout/cmdout.h>
+#include <cmdout/experimental/std_system_out.h>
 
 static void BM_std_system(benchmark::State &state)
 {

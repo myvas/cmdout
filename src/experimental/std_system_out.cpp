@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  std_system_out.cpp
  * @brief Implementation of Experimental functions for the benchmark control group,
  * via function std::system() to execute a shell command and get its output.
  */
-#include "cmdout/experimental/std_system_out.hpp"
+#include "cmdout/experimental/std_system_out.h"
 
 #include <cstdio>
 #include <fstream>

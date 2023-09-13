@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  example_std_system.cpp
  * @brief example for function std::system().

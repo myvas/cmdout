@@ -79,7 +79,7 @@ As an example, create a file named `hello_test.cc` in your `my_project`
 directory with the following contents:
 
 ```cpp
-#include <cmdout/cmdout.hpp>
+#include <cmdout/cmdout.h>
 
 int main() {
     auto cmd = "ls ~ -C";

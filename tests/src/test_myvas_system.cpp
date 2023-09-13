@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  test_myvas_system.cpp
  * @brief Unit test for function myvas::system().
  */
 
-#include <cmdout/cmdout.hpp>
+#include <cmdout/cmdout.h>
 
 #include <catch2/catch_test_macros.hpp>
 

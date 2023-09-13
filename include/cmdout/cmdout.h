@@ -1,8 +1,8 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
- * @file  cmdout.hpp
+ * @file  cmdout.h
  * @brief Class myvas::cmdout is used to execute a shell command and get its output, within timeout feature.
  * And function myvas::system() performs the executing logic.
  *

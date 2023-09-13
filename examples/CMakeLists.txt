@@ -1,5 +1,5 @@
-# Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2023 Myvas Foundation
 
 cmake_minimum_required(VERSION 3.19)
 project(cmdout_examples LANGUAGES CXX)

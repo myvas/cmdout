@@ -1,5 +1,5 @@
-# Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2023 Myvas Foundation
 
 # Turn on warnings on the given target
 function(cmdout_enable_warnings target_name)

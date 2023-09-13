@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2023 Myvas Foundation
+
+# CPack project config file
+
+# values of variables prefixed with CPACK_ will be escaped before being written
+# to the configuration files.
+set(CPACK_VERBATIM_VARIABLES YES)
+
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0)
+set(CPACK_INSTALL_CMAKE_PROJECTS "@CMAKE_BINARY_DIR@" "@PROJECT_NAME@" ALL .)
+set(CPACK_PROJECT_URL "https://github.com/myvas/cmdout")
+set(CPACK_PACKAGE_VENDOR "Myvas Foundation")
+set(CPACK_PACKAGE_CONTACT "FrankH <4848285@qq.com>")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "cmdout library")
+set(CPACK_PACKAGE_RELOCATABLE ON CACHE BOOL "Build relocatable package")
+
+set(CPACK_PACKAGE_DESCRIPTION_FILE "@CMAKE_CURRENT_SOURCE_DIR@/README.md")
+set(CPACK_RESOURCE_FILE_WELCOME "@CMAKE_CURRENT_SOURCE_DIR@/README.md")
+set(CPACK_RESOURCE_FILE_LICENSE "@CMAKE_CURRENT_SOURCE_DIR@/LICENSE")
+set(CPACK_RESOURCE_FILE_README "@CMAKE_CURRENT_SOURCE_DIR@/README.md")
+
+# that is if you want every group to have its own package,
+# although the same will happen if this is not set (so it defaults to ONE_PER_GROUP)
+# and CPACK_DEB_COMPONENT_INSTALL is set to YES
+#set(CPACK_COMPONENTS_GROUPING ONE_PER_GROUP)
+set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
+
+if(CPACK_GENERATOR MATCHES "DEB")
+	set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
+
+	# package name for deb. If set, then instead of some-application-0.9.2-Linux.deb
+	# you'll get some-application_0.9.2_amd64.deb (note the underscores too)
+	set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+
+	# without this you won't be able to pack only specified component
+	set(CPACK_DEB_COMPONENT_INSTALL YES)
+
+	#set(CPACK_DEBIAN_PACKAGE_DEPENDS "xxx (>= v.v.v)")
+
+    set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
+    set(CPACK_DEBIAN_PACKAGE_NAME "@PROJECT_NAME@")
+    set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${CPACK_PROJECT_URL})
+    set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "@PROJECT_DESCRIPTION@")
+endif()
+
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${CPACK_PACKAGE_NAME})
+#set(CPACK_OUTPUT_FILE_PREFIX "${CPACK_INSTALL_PREFIX}/../packages")

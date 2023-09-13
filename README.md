@@ -18,13 +18,13 @@ target_link_libraries(<your_target> PRIVATE cmdout)
 ```
 ### Include the header file
 ```
-#include <cmdout/cmdout.hpp>
+#include <cmdout/cmdout.h>
 ```
 
 ### Examples
 C++17 on GNU/Linux Debian 11 (bullseye)
 ```
-#include <cmdout/cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.h>
 #include <cassert>
 //...
 int main() {

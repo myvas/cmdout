@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  cmdout.cpp
  * @brief Extensions for class myvas::cmdout.
  */
-#include <cmdout/cmdout_ext.hpp>
+#include <cmdout/cmdout_ext.h>
 
 namespace myvas {
 

@@ -1,5 +1,5 @@
-# Copyright (c) 2023 Myvas Foundation
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2023 Myvas Foundation
 
 #[========================================[.rst:
 Find or fetch a CMake package: gtest >=1.12.1
@@ -18,7 +18,7 @@ How to install googletest on Debian 12 (bookworm)?
 
 set(GTest_VERSION_REQUIRED 1.12.1)
 
-find_package(GTest ${GTest_VERSION_REQUIRED} QUIET)
+find_package(GTest ${GTest_VERSION_REQUIRED} QUIET CONFIG)
 if(GTest_FOUND)
     message(STATUS "Found GTest: ${GTest_VERSION}")
 else()

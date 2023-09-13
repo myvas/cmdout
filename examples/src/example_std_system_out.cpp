@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
  * @file  example_std_system_out.cpp
  * @brief example for function std::system() to execute a shell command and get its output.
  */
-#include <cmdout/experimental/std_system_out.hpp>
+#include <cmdout/experimental/std_system_out.h>
 
 #include <iostream>
 #include <cstdio>

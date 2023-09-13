@@ -1,8 +1,8 @@
 /**
- * Copyright (c) 2023 Myvas Foundation
  * SPDX-License-Identifier: MIT
+ * Copyright (c) 2023 Myvas Foundation
  *
- * @file  cmdout_ext.hpp
+ * @file  std_system_out.h
  * @brief Experimental functions for the benchmark control group.
  */
 #pragma once
