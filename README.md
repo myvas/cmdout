@@ -1,4 +1,9 @@
 # myvas::cmdout
+[![Build Status](https://app.travis-ci.com/myvas/cmdout.svg?branch=main)](https://app.travis-ci.com/myvas/cmdout)
+[![Build status](https://ci.appveyor.com/api/projects/status/pudfd8l1ni8jkj2w/branch/main?svg=true)](https://ci.appveyor.com/project/MyvasAdmin/cmdout/branch/main)
+[![Release](https://img.shields.io/github/release/myvas/cmdout.svg)](https://github.com/myvas/cmdout/releases)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 The cmdout library provides facilities for executing shell commands and get their output before time runs out.
 
 ## Todo list
