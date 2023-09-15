@@ -6,21 +6,6 @@ language: cpp
 branches:
   only:
   - main
-
-before_install:
-  - sudo apt-get -y install doxygen
-  - sudo apt-get -y install graphviz
-
-before_script:
-  - eval "${MATRIX_EVAL}"
-  - $CXX --version
-
-script:
-  - mkdir build && cd ./build
-  - cmake ..
-  - make
-  - ctest
-
 notifications:
   email: false
 
@@ -28,8 +13,18 @@ notifications:
 # git 2.40.1, git-lfs 3.0.2
 # cmake 3.26.3, gcc 11.3.0/11.4.0, clang 16.0.0, python 3.10
 dist: jammy
-
 sudo: required
+before_install:
+  - sudo apt-get -y install doxygen
+  - sudo apt-get -y install graphviz
+before_script:
+  - eval "${MATRIX_EVAL}"
+  - $CXX --version
+script:
+  - mkdir build && cd ./build
+  - cmake ..
+  - make
+  - ctest
 
 matrix:
   include:
