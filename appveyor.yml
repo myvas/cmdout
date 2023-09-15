@@ -20,9 +20,11 @@ build_script:
 
     cmake ..
 
-    make
+    make package
 
-    ctest
+    make package_source
+test_script:
+- sh: ctest
 notifications:
 - provider: Email
   to:
