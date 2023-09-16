@@ -54,6 +54,26 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Install doxygen and graphviz (Windows)
+      if: startsWith(matrix.config.os, ‘windows-')
+      shell: bash
+      run: |
+        mkdir build\doxygen
+        cd build\doxygen
+        curl -kLSs https://github.com/doxygen/doxygen/releases/download/Release_${DOXYGEN_VERSION//./_}/doxygen-${DOXYGEN_VERSION}.windows.x64.bin.zip -o doxygen.zip
+        unzip doxygen.zip
+        cp * c:\\Windows
+      with:
+        version: "1.9.5"
+
+    - name: Install doxygen and graphviz (Ubuntu)
+      if: startsWith(matrix.config.os, ‘ubuntu-')
+      shell: bash
+      run: |
+        sudo apt update --fix-missing
+        sudo apt update
+        sudo apt-get install -y doxygen graphviz
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
