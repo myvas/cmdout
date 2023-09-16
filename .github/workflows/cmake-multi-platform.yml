@@ -63,8 +63,8 @@ jobs:
         curl -kLSs https://github.com/doxygen/doxygen/releases/download/Release_${DOXYGEN_VERSION//./_}/doxygen-${DOXYGEN_VERSION}.windows.x64.bin.zip -o doxygen.zip
         unzip doxygen.zip
         cp * c:\\Windows
-      with:
-        version: "1.9.5"
+      env:
+        DOXYGEN_VERSION: "1.9.5"
 
     - name: Install doxygen and graphviz (Ubuntu)
       if: startsWith(matrix.config.os, ‘ubuntu-')
