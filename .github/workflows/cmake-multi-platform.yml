@@ -55,7 +55,7 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Install doxygen and graphviz (Windows)
-      if: startsWith(matrix.config.os, 'windows-')
+      if: startsWith(runner.os, 'windows-')
       shell: bash
       run: |
         mkdir build\doxygen
@@ -67,7 +67,7 @@ jobs:
         DOXYGEN_VERSION: "1.9.5"
 
     - name: Install doxygen and graphviz (Ubuntu)
-      if: startsWith(matrix.config.os, 'ubuntu-')
+      if: startsWith(runner.os, 'ubuntu-')
       shell: bash
       run: |
         sudo apt update --fix-missing
