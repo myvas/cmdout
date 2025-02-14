@@ -56,16 +56,13 @@ jobs:
 
     - name: Install winget (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
-      uses: Cyberboss/install-winget@v1
-      id: stepid
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        wget_release_id: latest
+      uses: Cyberboss/install-winget@main
+      id: install-winget
 
     - name: Install winget, cmake, doxygen and graphviz (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
       run: |
-        echo '${{ steps.stepid.outputs.winget-version }}'
+        echo '${{ steps.install-winget.outputs.winget-version }}'
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
