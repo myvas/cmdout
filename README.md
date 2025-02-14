@@ -1,6 +1,6 @@
 # myvas::cmdout
-[![Build Status](https://app.travis-ci.com/myvas/cmdout.svg?branch=main)](https://app.travis-ci.com/myvas/cmdout)
-[![Build status](https://ci.appveyor.com/api/projects/status/pudfd8l1ni8jkj2w/branch/main?svg=true)](https://ci.appveyor.com/project/MyvasAdmin/cmdout/branch/main)
+[![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/cmdout?label=github)](https://github.com/myvas/cmdout)
+[![GitHub Actions Status](https://github.com/myvas/AspNetCore.Email/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/cmdout/actions)
 [![Release](https://img.shields.io/github/release/myvas/cmdout.svg)](https://github.com/myvas/cmdout/releases)
 
 The cmdout library provides facilities for executing shell commands and get their output before time runs out.
@@ -151,5 +151,6 @@ sudo rm /usr/local/bin/ctest
 sudo ln /opt/cmake-3.27.0-linux-x86_64/bin/* /usr/local/bin
 ```
 
-## Todo list
-- By now, it works on Linux; but it should work on more platforms.
+## Known issues
+- 
+As of now, the feature is active on Linux, but it is not available for Windows, and there are no upcoming plans to make it compatible with Windows.

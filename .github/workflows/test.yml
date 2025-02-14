@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: test
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
@@ -54,17 +54,22 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Install doxygen and graphviz (Windows)
+    - name: Install winget (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
-      shell: bash
+      uses: Cyberboss/install-winget@main
+      id: install-winget
+
+    - name: Install winget, cmake, doxygen and graphviz (Windows)
+      if: ${{ startsWith(matrix.os, 'windows-') }}
       run: |
-        mkdir build\doxygen
-        cd build\doxygen
-        curl -kLSs https://github.com/doxygen/doxygen/releases/download/Release_${DOXYGEN_VERSION//./_}/doxygen-${DOXYGEN_VERSION}.windows.x64.bin.zip -o doxygen.zip
-        unzip doxygen.zip
-        cp * c:\\Windows
+        echo 'winget version: ${{ steps.install-winget.outputs.winget-version }}'
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
       env:
+        CMAKE_VERSION: "3.27.0"
         DOXYGEN_VERSION: "1.9.5"
+        GRAPHVIZ_VERSION: "2.48.0"
 
     - name: Install doxygen and graphviz (Ubuntu)
       if: ${{ startsWith(matrix.os, 'ubuntu-') }}
@@ -93,3 +98,7 @@ jobs:
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
+
+    - name: Benchmarks
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: ./benchmarks/benchmarks
