@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: test
 
 on:
   push:
@@ -54,17 +54,24 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Install doxygen and graphviz (Windows)
+    - name: Install Chocolatey (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
-      shell: bash
       run: |
-        mkdir build\doxygen
-        cd build\doxygen
-        curl -kLSs https://github.com/doxygen/doxygen/releases/download/Release_${DOXYGEN_VERSION//./_}/doxygen-${DOXYGEN_VERSION}.windows.x64.bin.zip -o doxygen.zip
-        unzip doxygen.zip
-        cp * c:\\Windows
+        Set-ExecutionPolicy Bypass -Scope Process -Force;
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+    - name: Install winget, cmake, doxygen and graphviz (Windows)
+      if: ${{ startsWith(matrix.os, 'windows-') }}
+      run: |
+        choco install winget -y
+        winget install -e --silent --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
+        winget install -e --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
+        winget install -e --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
       env:
+        CMAKE_VERSION: "3.27.0"
         DOXYGEN_VERSION: "1.9.5"
+        GRAPHVIZ_VERSION: "2.48.0"
 
     - name: Install doxygen and graphviz (Ubuntu)
       if: ${{ startsWith(matrix.os, 'ubuntu-') }}
