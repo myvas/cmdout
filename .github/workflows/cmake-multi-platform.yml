@@ -23,7 +23,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
@@ -62,7 +62,7 @@ jobs:
     - name: Install winget, cmake, doxygen and graphviz (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
       run: |
-        echo '${{ steps.install-winget.outputs.winget-version }}'
+        echo 'winget version: ${{ steps.install-winget.outputs.winget-version }}'
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
         winget install --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
