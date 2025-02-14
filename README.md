@@ -1,6 +1,6 @@
 # myvas::cmdout
 [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/cmdout?label=github)](https://github.com/myvas/cmdout)
-[![GitHub Actions Status](https://github.com/myvas/AspNetCore.Email/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/cmdout/actions)
+[![GitHub Actions Status](https://github.com/myvas/cmdout/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/cmdout/actions)
 [![Release](https://img.shields.io/github/release/myvas/cmdout.svg)](https://github.com/myvas/cmdout/releases)
 
 The cmdout library provides facilities for executing shell commands and get their output before time runs out.
