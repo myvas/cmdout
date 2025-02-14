@@ -11,7 +11,7 @@ The cmdout library provides facilities for executing shell commands and get thei
 ```
 include(FetchContent)
 FetchContent_Declare(cmdout
-	URL https://github.com/myvas/cmdout/archive/refs/tags/0.1.23.tar.gz
+	URL https://github.com/myvas/cmdout/archive/refs/tags/0.2.0.tar.gz
 	DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 FetchContent_MakeAvailable(cmdout)
