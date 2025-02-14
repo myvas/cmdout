@@ -17,6 +17,8 @@ project(cmdout VERSION 0.2.0
 set(CMDOUT_VERSION ${PROJECT_VERSION})
 set(CMDOUT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
+set(EXPORT_COMPILE_COMMANDS ON)
+
 # include modules
 find_package(Threads REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -26,11 +28,11 @@ include(utils)
 # ON  : if this project is being used directly
 # OFF : if this project is being used via add_subdirectory
 if(NOT DEFINED CMDOUT_MASTER_PROJECT)
-	if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-		set(CMDOUT_MASTER_PROJECT ON)
-	else()
-		set(CMDOUT_MASTER_PROJECT OFF)
-	endif()
+    if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        set(CMDOUT_MASTER_PROJECT ON)
+    else()
+        set(CMDOUT_MASTER_PROJECT OFF)
+    endif()
 endif()
 message(STATUS "CMDOUT_MASTER_PROJECT: ${CMDOUT_MASTER_PROJECT}")
 
@@ -60,35 +62,35 @@ set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(NOT CYGWIN AND NOT MSYS AND NOT ${CMAKE_SYSTEM_NAME} STREQUAL QNX)
-	set(CMAKE_CXX_EXTENSIONS OFF)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
 ################################
 # Build Static/Shared library
 ################################
 set(CMDOUT_SRCS
-	"src/cmdout.cpp"
+    "src/cmdout.cpp"
     "src/system.cpp"
     "src/cmdout_ext.cpp"
     "src/experimental/std_system_out.cpp"
 )
 if(CMDOUT_BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
-	if(WIN32)
-		configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
-		list(APPEND CMDOUT_SRCS ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
-	endif()
-	add_library(cmdout SHARED ${CMDOUT_SRCS})
+    if(WIN32)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
+        list(APPEND CMDOUT_SRCS ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+    endif()
+    add_library(cmdout SHARED ${CMDOUT_SRCS})
 else()
-	add_library(cmdout STATIC ${CMDOUT_SRCS})
+    add_library(cmdout STATIC ${CMDOUT_SRCS})
 endif()
 target_include_directories(cmdout PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>"
-	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 target_link_libraries(cmdout PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 set_target_properties(cmdout PROPERTIES
-	VERSION ${CMDOUT_VERSION}
-	SOVERSION ${CMDOUT_SOVERSION}
+    VERSION ${CMDOUT_VERSION}
+    SOVERSION ${CMDOUT_SOVERSION}
 )
 add_library(myvas::cmdout ALIAS cmdout)
 
@@ -96,17 +98,17 @@ add_library(myvas::cmdout ALIAS cmdout)
 # subprojects
 ########################
 if(CMDOUT_BUILD_TESTING)
-	message(STATUS "Generating tests")
+    message(STATUS "Generating tests")
     include(CTest)
-	add_subdirectory(tests)
+    add_subdirectory(tests)
 endif()
 if(CMDOUT_BUILD_EXAMPLES)
-	message(STATUS "Generating examples")
-	add_subdirectory(examples)
+    message(STATUS "Generating examples")
+    add_subdirectory(examples)
 endif()
 if(CMDOUT_BUILD_BENCHMARKS)
-	message(STATUS "Generating benchmarks")
-	add_subdirectory(benchmarks)
+    message(STATUS "Generating benchmarks")
+    add_subdirectory(benchmarks)
 endif()
 
 include(GNUInstallDirs)
@@ -118,32 +120,32 @@ if (CMDOUT_INSTALL)
     #   apt install doxygen
     # Require GraphViz (dot) 2.43.0
     #   apt install graphviz
-	# Require dot, treat the other components as optional
+    # Require dot, treat the other components as optional
     find_package(Doxygen REQUIRED dot
         OPTIONAL_COMPONENTS mscgen dia
     )
     message(STATUS "Found Doxygen: ${DOXYGEN_VERSION}")
     set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
     set(DOXYGEN_WARN_NO_PARAMDOC NO)
-	set(DOXYGEN_QUIET YES)
-	set(DOXYGEN_RECURSIVE YES)
-	set(DOXYGEN_GENERATE_MAN NO)
-	set(DOXYGEN_MARKDOWN_SUPPORT YES)
+    set(DOXYGEN_QUIET YES)
+    set(DOXYGEN_RECURSIVE YES)
+    set(DOXYGEN_GENERATE_MAN NO)
+    set(DOXYGEN_MARKDOWN_SUPPORT YES)
 
-	set(DOXYGEN_GENERATE_HTML YES)
+    set(DOXYGEN_GENERATE_HTML YES)
     set(DOXYGEN_GENERATE_TREEVIEW YES)
     set(DOXYGEN_DISABLE_INDEX NO)
     set(DOXYGEN_FULL_SIDEBAR YES)
 
-	set(DOXYGEN_BINARY_TOC YES)
-	set(DOXYGEN_TOC_EXPAND YES)
+    set(DOXYGEN_BINARY_TOC YES)
+    set(DOXYGEN_TOC_EXPAND YES)
 
-	set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
-	set(DOXYGEN_EXTRACT_PACKAGE YES)
-	set(DOXYGEN_EXTRACT_STATIC YES)
-	set(DOXYGEN_SHOW_INCLUDE_FILES YES)
+    set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
+    set(DOXYGEN_EXTRACT_PACKAGE YES)
+    set(DOXYGEN_EXTRACT_STATIC YES)
+    set(DOXYGEN_SHOW_INCLUDE_FILES YES)
 
-	set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "docs/index.md")
+    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "docs/index.md")
     set(DOXYGEN_EXCLUDE_PATTERNS "Doxyfile"
         " Doxyfile.in"
         " CMakeLists.txt"
@@ -152,18 +154,18 @@ if (CMDOUT_INSTALL)
         " *.py"
         " requirements.txt"
     )
-	doxygen_add_docs(cmdout_doxygen
-		docs include examples/src ALL
-		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-		COMMENT "Building documentation with Doxygen."
-	)
-	install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
-		DESTINATION ${CMAKE_INSTALL_DOCDIR}
-	)
+    doxygen_add_docs(cmdout_doxygen
+        docs include examples/src ALL
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        COMMENT "Building documentation with Doxygen."
+    )
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
+        DESTINATION ${CMAKE_INSTALL_DOCDIR}
+    )
 
-	#################
-	# Install files
-	#################
+    #################
+    # Install files
+    #################
     # <prefix>/include/xxx
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -175,10 +177,10 @@ if (CMDOUT_INSTALL)
         #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # bin
         #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
         #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
-	)
+    )
 
     # pkg-config files: <prefix>/share/pkgconfig/xxx.pc
-	message(STATUS "Generating pkg-config files")
+    message(STATUS "Generating pkg-config files")
     set(PKG_CONFIG_VERSION_STRING ${PROJECT_VERSION})
     if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
         set(PKG_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
