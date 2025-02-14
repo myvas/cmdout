@@ -54,20 +54,21 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Install Chocolatey (Windows)
+    - name: Install winget (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
-      run: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force;
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
-        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      uses: Cyberboss/install-winget@v1
+      id: stepid
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        wget_release_id: latest
 
     - name: Install winget, cmake, doxygen and graphviz (Windows)
       if: ${{ startsWith(matrix.os, 'windows-') }}
       run: |
-        choco install winget -y
-        winget install -e --silent --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
-        winget install -e --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
-        winget install -e --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
+        echo '${{ steps.stepid.outputs.winget-version }}'
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.CMAKE_VERSION }} --id Kitware.CMake cmake
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.DOXYGEN_VERSION }} --id DimitriVanHeesch.Doxygen doxygen
+        winget install --disable-interactivity --accept-source-agreements --version ${{ env.GRAPHVIZ_VERSION }} --id Graphviz.Graphviz graphviz
       env:
         CMAKE_VERSION: "3.27.0"
         DOXYGEN_VERSION: "1.9.5"
