@@ -152,5 +152,4 @@ sudo ln /opt/cmake-3.27.0-linux-x86_64/bin/* /usr/local/bin
 ```
 
 ## Known issues
-- 
-As of now, the feature is active on Linux, but it is not available for Windows, and there are no upcoming plans to make it compatible with Windows.
+- As of now, the feature is active on Linux, but it is not available for Windows, and there are no upcoming plans to make it compatible with Windows.
