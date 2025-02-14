@@ -6,9 +6,6 @@
 
 The cmdout library provides facilities for executing shell commands and get their output before time runs out.
 
-## Todo list
-- By now, it works on Linux; but it should work on more platforms.
-
 ## Getting Started
 ### Import and link the library via CMake
 ```
@@ -114,3 +111,6 @@ BM_std_system_out    1751184 ns       147665 ns         4749
 BM_myvas_system      1639949 ns       100367 ns         7086
 BM_myvas_cmdout      1760044 ns        56635 ns        12510
 ```
+
+## Todo list
+- By now, it works on Linux; but it should work on more platforms.
